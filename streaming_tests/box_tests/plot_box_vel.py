@@ -2,7 +2,8 @@ import matplotlib.pyplot as plt
 import numpy as np
 from motoman_def import robot_obj, positioner_obj
 
-PLOT = False
+PLOT_TASK = False
+PLOT_JOINT = False
 
 ## Load reference data
 ref_data_dir = '../../../Welding_Motoman/data/two_pt_stream_test/slice/curve_sliced_relative/'
@@ -72,13 +73,19 @@ for j in [5,10,15,20]:
 
     ## Calculate Cartesian Velocity from Joint Space
 
-    js_vel = np.zeros((data_points-1,6))
+    # js_vel = np.zeros((data_points-1,6))
+    # cart_vel = np.zeros((data_points-1))
+    # for i in range(data_points-1):
+    #     js_vel[i,:] = (robot_js[i+1,:]-robot_js[i,:])/(timestamps[i+1]-timestamps[i])
+    #     vel_point = robot.jacobian(robot_js[i,:])@js_vel[i,:]
+    #     cart_vel[i]=np.sqrt(vel_point[3:].dot(vel_point[3:]))
+    #     np.linalg.norm(vel_point[3:],ord=2)
+
+    ## Calculate forward kinematics, then take difference in task space
     cart_vel = np.zeros((data_points-1))
     for i in range(data_points-1):
-        js_vel[i,:] = (robot_js[i+1,:]-robot_js[i,:])/(timestamps[i+1]-timestamps[i])
-        vel_point = robot.jacobian(robot_js[i,:])@js_vel[i,:]
-        cart_vel[i]=np.sqrt(vel_point[3:].dot(vel_point[3:]))
-        np.linalg.norm(vel_point[3:],ord=2)
+        velocity = (rob1_pose.p_all[i]-rob1_pose.p_all[i+1])/(timestamps[i+1]-timestamps[i])
+        cart_vel[i]=np.sqrt(velocity[0:2].dot(velocity[0:2]))
 
     ## Compute Moving Average
     window_width = 51
@@ -97,7 +104,7 @@ for j in [5,10,15,20]:
     ax2.set_ylabel("Torch Speed (mm/s)")
     ax2.legend(["Raw Calculated Velocity", "Windowed Average", "Setpoint"])
     ax2.set_title(f"Setpoint: {j} mm/s")
-    if PLOT: fig2.show()
+    if PLOT_TASK: fig2.show()
 
     ## Calculate Errors
     e_sum = 0
@@ -109,11 +116,13 @@ for j in [5,10,15,20]:
     
     # calculate measurement period
     time_diffs.extend(timestamps[1:]-timestamps[:-1])
-
+fig_time, ax_time=plt.subplots(1,1)
+ax_time.hist(timestamps[1:]-timestamps[:-1])
+plt.show()
 
 ax.set_aspect('equal')
 ax.legend(legends)
 
 print("Measurement Frequency: ",1/np.mean(time_diffs))
 
-if PLOT: plt.show()
+if PLOT_TASK: plt.show()
