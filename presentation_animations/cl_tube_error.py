@@ -11,7 +11,7 @@ from mpl_toolkits.axes_grid1 import make_axes_locatable
 sys.path.append("../../Welding_Motoman/toolbox")
 from angled_layers import avg_by_line
 
-DATASET = "ER4043_bent_tube_large_cold_OL_2024_11_14_11_56_43"
+DATASET = "ER4043_bent_tube_large_hot_2024_11_06_12_27_19"
 
 DATA_DIR = "../../Welding_Motoman/scan/angled_layer/"
 FLAME_DIR = DATA_DIR+"processing_data/"
@@ -91,15 +91,12 @@ def update(num):
 fig = plt.figure()
 ax = fig.add_subplot(111, projection='3d')
 
-# norm = matplotlib.colors.Normalize(vmin=np.nanmin(layer_errors), vmax=np.nanmax(layer_errors))
+# norm = matplotlib.colors.Normalize(vmin=0.1870684015219398, vmax=52.71549799054008)
 # colors = cm.jet(norm(layer_errors))
-# norm = matplotlib.colors.Normalize(vmin=np.nanmin(temps_whole), vmax=np.nanmax(temps_whole))
-norm = matplotlib.colors.Normalize(vmin=10193.589930555554, vmax=17227.5335)
+norm = matplotlib.colors.Normalize(vmin=np.nanmin(temps_whole), vmax=np.nanmax(temps_whole))
 colors = cm.jet(norm(temps_whole))
-# print("Norm range: ", np.nanmin(layer_errors))
-# print(np.nanmax(layer_errors))
-print("Norm range: ", np.nanmin(temps_whole))
-print(np.nanmax(temps_whole))
+print("min: ", np.nanmin(temps_whole))
+print("max: ", np.nanmax(temps_whole))
 
 
 line = ax.scatter([],[],[],facecolors=[], marker='o')
@@ -121,6 +118,7 @@ ax.set_ylabel("Y")
 ax.set_zlabel("Z")
 cbar = fig.colorbar(s_m, ax=ax, label="Error (mm)")
 cbar.set_label("Brightness Temperature", size=18)
+# cbar.set_label("Error (mm)", size=18)
 
 # art = ax.scatter([],[],c=[])
 
@@ -129,5 +127,5 @@ cbar.set_label("Brightness Temperature", size=18)
 ani = FuncAnimation(fig, update, frames = 5087, interval=5, repeat=False)
 
 # Create animation
-ani.save('cold_ol_temp.mp4', dpi=300)
+# ani.save('hot_cl_temp.mp4', dpi=300)
 plt.show()
