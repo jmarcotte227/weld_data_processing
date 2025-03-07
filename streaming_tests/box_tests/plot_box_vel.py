@@ -2,9 +2,9 @@ import matplotlib.pyplot as plt
 import numpy as np
 from motoman_def import robot_obj, positioner_obj
 
-PLOT_TASK = False
+PLOT_TASK = True
 PLOT_JOINT = False
-DOWNSAMPLE_CONST = 2
+DOWNSAMPLE_CONST = 1
 
 ## Load reference data
 ref_data_dir = '../../../Welding_Motoman/data/two_pt_stream_test/slice/curve_sliced_relative/'
@@ -44,7 +44,7 @@ time_diffs = []
 # for j in [5,10,15,20]:
 for j in [20]:
     ## Load test data
-    recorded_data = f'../../../recorded_data/streaming_rectangle_test/{j}/'
+    recorded_data = f'../../../recorded_data/streaming_rectangle_corrected_delay/{j}/'
     weld_js_exe = np.loadtxt(recorded_data+'weld_js_exe.csv', delimiter=',')
     weld_js_cmd = np.loadtxt(recorded_data+'weld_js_cmd.csv', delimiter=',')
 
@@ -126,6 +126,7 @@ for j in [20]:
         print(f"Sample Time Average: {np.mean(timestamps[1:]-timestamps[:-1])}")
         print(f"Sample Time Std Dev: {np.std(timestamps[1:]-timestamps[:-1])}")
         print(f"Sample Time Min: {np.min(timestamps[1:]-timestamps[:-1])}")
+        print(f"Sample Time Min Idx: {np.argmin(timestamps[1:]-timestamps[:-1])}")
         print(f"Sample Time Max: {np.max(timestamps[1:]-timestamps[:-1])}")
 
         # plot joint angles

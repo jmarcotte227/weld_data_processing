@@ -2,10 +2,11 @@ import os
 import numpy as np
 import matplotlib.pyplot as plt
 
-data_dir='../../../recorded_data/streaming/'
+data_dir='../../../recorded_data/streaming/streaming_delay/'
+# data_dir='../../../recorded_data/streaming/'
 STREAMING_RATE = 125.
 
-for name in os.listdir(data_dir)[2:]:
+for name in os.listdir(data_dir):
     try:
         s=name.split('_')
         joint=int(s[2])
@@ -23,9 +24,9 @@ for name in os.listdir(data_dir)[2:]:
         cmd_time_diff = cmd_stamps[1:]-cmd_stamps[:-1]
 
         # artificial time difference from STREAMING_RATE
-        time_exe_stream = np.linspace(0, (len(cmd_stamps)-1)/STREAMING_RATE, len(cmd_stamps))
-        time_diff_stream = time_exe_stream[1:]-time_exe_stream[:-1] 
-        print(time_diff_stream[:5])
+        # time_exe_stream = np.linspace(0, (len(cmd_stamps)-1)/STREAMING_RATE, len(cmd_stamps))
+        # time_diff_stream = time_exe_stream[1:]-time_exe_stream[:-1] 
+        # print(time_diff_stream[:5])
         print(cmd_time_diff[:5])
     
         # calculate joint difference
@@ -35,7 +36,7 @@ for name in os.listdir(data_dir)[2:]:
         # calculate velocity
         exe_vel = exe_joint_diff/exe_time_diff
         cmd_vel = cmd_joint_diff/cmd_time_diff
-        cmd_vel_adjust = cmd_joint_diff/time_diff_stream
+        # cmd_vel_adjust = cmd_joint_diff/time_diff_stream
 
 
         
@@ -44,13 +45,16 @@ for name in os.listdir(data_dir)[2:]:
         fig,ax=plt.subplots()
         ax.scatter(exe_stamps[1:]-exe_stamps[0],exe_vel,s=1)
         ax.scatter(cmd_stamps[1:]-cmd_stamps[0],cmd_vel,s=1)
-        ax.scatter(time_exe_stream[1:],cmd_vel_adjust,s=1)
+        # ax.scatter(time_exe_stream[1:],cmd_vel_adjust,s=1)
         ax.set_xlabel('time (s)')
+        # ax.set_ylim([0,0.02])
         ax.set_ylabel('velocity (rad/s)')
         ax.set_title(f'Joint {joint+1} | Velocity {vel} rad/s')
-        fig.savefig(f'procedural_plots/velocity_plots/joint_{joint+1}_vel_{vel}.png')
-        plt.show()
-        exit()
+        ax.legend(['Executed', 'Commanded'])
+        fig.savefig(f'procedural_plots/velocity_plots/velocity_plots_corrected/joint_{joint+1}_vel_{vel}.png')
+        # fig.savefig(f'procedural_plots/velocity_plots/joint_{joint+1}_vel_{vel}.png')
+        # plt.show()
+        # exit()
     except FileNotFoundError:
         pass
     except IndexError:
