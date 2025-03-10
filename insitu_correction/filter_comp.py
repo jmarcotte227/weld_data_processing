@@ -113,7 +113,7 @@ for idx,flame in enumerate(flame_set):
         flame[:, 1] = new_x
         flame[:, 3] = new_z - base_thickness
         flame[:,0] = flame[:,0]-job_no_offset
-        if layer == 103:
+        if layer == 52:
             filter = LiveFilter()
             for i in range(flame.shape[0]):
                 flames_filter.append(filter.process(flame[i,1:])[2])
