@@ -29,7 +29,7 @@ flame_set = [
     # '../processing_data/ER4043_bent_tube_2024_09_04_12_23_40_flame.pkl',
     # 'processing_data/ER4043_bent_tube_2024_09_03_13_26_16_flame.pkl',
     # '../processing_data/ER4043_bent_tube_hot_2024_10_21_13_25_58_flame.pkl'
-    # '../processing_data/ER4043_bent_tube_large_hot_2024_11_06_12_27_19_flame.pkl'
+    '../processing_data/ER4043_bent_tube_large_hot_2024_11_06_12_27_19_flame.pkl'
     # '../processing_data/ER4043_bent_tube_large_cold_2024_11_07_10_21_39_flame.pkl'
     # '../processing_data/ER4043_bent_tube_large_cold_OL_2024_11_14_11_56_43_flame.pkl'
     # '../processing_data/ER4043_bent_tube_large_hot_OL_2024_11_14_13_05_38_flame.pkl'
@@ -68,6 +68,7 @@ R = H[:3, :3]
 
 layer_start = 1
 rms_errs = []
+# fig,ax = plt.subplots()
 
 for idx,flame in enumerate(flame_set):
     with open(flame, 'rb') as file:
@@ -82,6 +83,7 @@ for idx,flame in enumerate(flame_set):
             (slicing_meta["point_of_rotation"], slicing_meta["baselayer_thickness"]))
     base_thickness = slicing_meta["baselayer_thickness"]
     layer_angle = np.array((slicing_meta["layer_angle"]))
+    print(layer_angle)
 
     curve_sliced = np.loadtxt(data_dir+"curve_sliced/slice1_0.csv", delimiter=',')
     dist_to_por = []
@@ -90,33 +92,41 @@ for idx,flame in enumerate(flame_set):
         dist = np.linalg.norm(point - point_of_rotation)
         dist_to_por.append(dist)
 
-    height_profile = []
-    for distance in dist_to_por:
-        height_profile.append(distance * np.sin(np.deg2rad(layer_angle)))
+    # height_profile = []
+    # for distance in dist_to_por:
+    #     height_profile.append(distance * np.sin(np.deg2rad(layer_angle)))
     height_err = []
     height_err_trim = []
     flames_flat = []
     # for layer, flame in enumerate(flames):
     for layer, flame in enumerate(flames):
-        to_flat_angle = np.deg2rad(layer_angle*(layer))
+        # plt.plot(flame[:,1], flame[:,3])
+        to_flat_angle = np.deg2rad(layer_angle*(layer+1))
         for i in range(flame.shape[0]):
             flame[i,1:] = R.T @ flame[i,1:]
 
         new_x, new_z = rotate(
             point_of_rotation, (flame[:, 1], flame[:, 3]), to_flat_angle
         )
+        # plt.plot(new_x, new_z)
         flame[:, 1] = new_x
         flame[:, 3] = new_z - base_thickness
 
         flame[:,0] = flame[:,0]-job_no_offset
+        # plt.plot(flame[:,1], flame[:,3])
         averages= avg_by_line(flame[:,0], flame[:,1:], np.linspace(0,49,50))
         height_err.append(averages[:,2])
         flames_flat.append(averages)
+        # if layer == 75:
+        #     plt.plot(averages[:,0], averages[:,2])
+        #     plt.show()
     rms_err = []
     for scan in height_err:
         rms_err.append(rms_error(scan[1:-1]))
         height_err_trim.append(scan[1:-1])
     rms_errs.append(rms_err)
+# ax.set_aspect('equal')
+# plt.show()
 
 
 np.savetxt(title+'_err.csv',rms_errs[0])

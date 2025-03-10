@@ -39,7 +39,7 @@ robot = robot_obj(
 robot2 = robot_obj(
     "MA1440_A0",
     def_path=config_dir+"MA1440_A0_robot_default_config.yml",
-    tool_file_path=config_dir+"flir_imaging.csv",
+    tool_file_path=config_dir+"flir.csv",
     pulse2deg_file_path=config_dir+"MA1440_A0_pulse2deg_real.csv",
     base_transformation_file=config_dir+"MA1440_pose.csv",
 )
@@ -105,7 +105,12 @@ for layer in range(num_layer_start, num_layer_end+1):
         # dist_to_por.append(dist)
 
     try:
-        flame_3d, _, job_no = flame_tracking_stream(f"{recorded_dir}layer_{layer}/", robot, robot2, positioner, flir_intrinsic, height_offset)
+        flame_3d, _, job_no = flame_tracking_stream(f"{recorded_dir}layer_{layer}/", 
+                                                    robot,
+                                                    robot2, 
+                                                    positioner,
+                                                    flir_intrinsic,
+                                                    height_offset)
         if flame_3d.shape[0] == 0:
             raise ValueError("No flame detected")
     except ValueError as e:
@@ -116,6 +121,7 @@ for layer in range(num_layer_start, num_layer_end+1):
         flame_3d = None
     else:
         # ammend job numbers to front
+        print(job_no)
         job_no = job_no.reshape((-1,1))
         output_array = np.hstack((job_no, flame_3d))
         flames.append(output_array)

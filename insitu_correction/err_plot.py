@@ -109,14 +109,15 @@ err_set = [
     # 'error_data/ER4043_bent_tube_large_cold_OL_2024_11_14_11_56_43_err.csv',
     # 'error_data/ER4043_bent_tube_large_hot_OL_2024_11_14_13_05_38_err.csv',
     # 'error_data/ER4043_bent_tube_large_cold_2024_11_07_10_21_39_err.csv',
-    # 'error_data/ER4043_bent_tube_large_hot_2024_11_06_12_27_19_err.csv',
+    'error_data/ER4043_bent_tube_large_hot_2024_11_06_12_27_19_err.csv',
     # 'error_data/ER4043_bent_tube_2024_09_04_12_23_40_err.csv',
     'error_data/ER4043_bent_tube_large_hot_streaming_2025_03_06_feedback_troubleshooting_err.csv'
 ]
 for idx,err in enumerate(err_set):
     err_data=np.loadtxt(err, delimiter=',')
+    num_points = len(err_data)
     ax1.scatter(
-            np.linspace(1,105,105),
+            np.linspace(1,num_points,num_points),
             err_data, 
             s=marker_size, 
             marker=marker_styles[idx],
@@ -124,13 +125,13 @@ for idx,err in enumerate(err_set):
             color = plt_colors[idx]
             )
     ax1.plot(
-            np.linspace(1,105,105),
+            np.linspace(1,num_points,num_points),
             err_data,
             alpha=0.3,
             color = plt_colors[idx]
             )
     ax2.scatter(
-            np.linspace(1,105,105),
+            np.linspace(1,num_points,num_points),
             err_data,
             s=marker_size,
             marker=marker_styles[idx], 
@@ -138,7 +139,7 @@ for idx,err in enumerate(err_set):
             color = plt_colors[idx]
             )
     ax2.plot(
-            np.linspace(1,105,105), 
+            np.linspace(1,num_points,num_points),
             err_data, 
             alpha=0.3
             )
