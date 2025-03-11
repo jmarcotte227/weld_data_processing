@@ -6,7 +6,7 @@ import numpy as np
 from motoman_def import robot_obj, positioner_obj
 from robotics_utils import H_inv
 sys.path.append('../../Welding_Motoman/toolbox')
-from angled_layers import avg_by_line, rotate, LiveAverageFilter
+from angled_layers import avg_by_line, rotate, LiveFilter
 
 def rms_error(data):
     data = np.array(data)
@@ -114,28 +114,11 @@ for idx,flame in enumerate(flame_set):
         flame[:, 3] = new_z - base_thickness
         flame[:,0] = flame[:,0]-job_no_offset
         if layer == 103:
-            filter = LiveAverageFilter()
-            flame_filt_val = [0,0,0]
-            curr_idx = 0
-            seg_flame_count = 0
-
+            filter = LiveFilter()
             for i in range(flame.shape[0]):
-                if (flame[i,0]!=curr_idx):
-                    flame_filt_val = filter.read_filter()
-                    for j in range(seg_flame_count+1):
-                        flames_filter.append(flame_filt_val)
-                    curr_idx = flame[i,0]
-                    seg_flame_count=0
-                else:
-                    seg_flame_count += 1
-                    filter.log_reading(flame[i,1:])
-            flame_filt_val = filter.read_filter()
-            for j in range(seg_flame_count):
-                flames_filter.append(flame_filt_val)
-
-            flames_filter = np.array(flames_filter)
-            plt.plot(flame[:,0],flame[:,3])
-            plt.plot(flame[:,0],flames_filter[:,2])
+                flames_filter.append(filter.process(flame[i,1:])[2])
+            plt.plot(flame[50:-50,3])
+            plt.plot(flames_filter[50:-50])
             plt.xlabel("Timestep")
             plt.ylabel("Error (mm)")
             plt.title(f"Filter Comparison Layer {layer}")
