@@ -70,7 +70,7 @@ plt.style.use('science')
 # exit()
 plt.rcParams['text.usetex'] = True
 
-fig, (ax1, ax2)= plt.subplots(2,1, sharex=True)
+fig, ax= plt.subplots()
 fig.set_size_inches(5,4)
 fig.set_dpi(300)
 marker_size = 2
@@ -99,10 +99,8 @@ marker_styles = [
 #         "Closed-Loop Hot Model"
 #         ]
 labels = [
-        'OC',
-        'OH',
-        'CC',
-        'CH',
+        'Layer Planning Only',
+        'In-Process Correction'
         ]
 
 err_set = [
@@ -113,57 +111,71 @@ err_set = [
     # 'error_data/ER4043_bent_tube_2024_09_04_12_23_40_err.csv',
     'error_data/ER4043_bent_tube_large_hot_streaming_2025_03_06_feedback_troubleshooting_err.csv'
 ]
-for idx,err in enumerate(err_set):
-    err_data=np.loadtxt(err, delimiter=',')
-    num_points = len(err_data)
-    ax1.scatter(
-            np.linspace(1,num_points,num_points),
-            err_data, 
-            s=marker_size, 
-            marker=marker_styles[idx],
-            label = labels[idx],
-            color = plt_colors[idx]
-            )
-    ax1.plot(
-            np.linspace(1,num_points,num_points),
-            err_data,
-            alpha=0.3,
-            color = plt_colors[idx]
-            )
-    ax2.scatter(
-            np.linspace(1,num_points,num_points),
-            err_data,
-            s=marker_size,
-            marker=marker_styles[idx], 
-            label = labels[idx],
-            color = plt_colors[idx]
-            )
-    ax2.plot(
-            np.linspace(1,num_points,num_points),
-            err_data, 
-            alpha=0.3
-            )
+idx_start = 82
+layer_no = np.linspace(1, 105-idx_start, 105-idx_start)
+print(layer_no)
+err_data=np.loadtxt(err_set[0], delimiter=',')
+err_data = err_data[idx_start:-1]
+ax.scatter(
+        layer_no,
+        err_data, 
+        s=marker_size, 
+        marker=marker_styles[0],
+        label = labels[0],
+        color = plt_colors[0]
+        )
+ax.plot(
+        layer_no,
+        err_data,
+        alpha=0.3,
+        color = plt_colors[0]
+        )
+print("-----Planning Stats------")
+print("Mean Error: ", np.mean(err_data))
+print("Peak Error: ", np.max(err_data))
+print("RMSE Error: ", np.sqrt(np.mean((err_data)**2)))
+err_data=np.loadtxt(err_set[1], delimiter=',')
+err_data = err_data[idx_start:]
+num_points = len(err_data)
+ax.scatter(
+        layer_no,
+        err_data, 
+        s=marker_size, 
+        marker=marker_styles[1],
+        label = labels[1],
+        color = plt_colors[1]
+        )
+ax.plot(
+        layer_no,
+        err_data,
+        alpha=0.3,
+        color = plt_colors[1]
+        )
+
+# print stats
+print("-----Correction Stats------")
+print("Mean Error: ", np.mean(err_data))
+print("Peak Error: ", np.max(err_data))
+print("RMSE Error: ", np.sqrt(np.mean((err_data)**2)))
+
 # err_data=np.loadtxt(err_set[-1], delimiter=',')
 # ax1.plot(np.linspace(1,80,80), err_data)
 # ax2.plot(np.linspace(1,80,80), err_data)
 
-ax2.set_xlabel("Layer Number")
-ax1.set_ylabel("RMSE (mm)")
-ax2.set_ylabel("RMSE (mm)")
-ax1.legend(facecolor='white', 
+ax.set_xlabel("Layer Number")
+ax.set_ylabel("RMSE (mm)")
+ax.legend(facecolor='white', 
            framealpha=0.8,
            frameon=True,
            # loc='lower center',
            # ncol=2,
            # bbox_to_anchor=(0.5,-0.8)
            )
-ax1.grid()
-ax2.grid()
-zoom_outside(ax1, [-5, -0.5, 111, 2], ax2, color='black', linewidth=0.5)
-ax1.set_title('Layer Error')
+ax.grid()
+# zoom_outside(ax1, [-5, -0.5, 111, 2], ax2, color='black', linewidth=0.5)
+ax.set_title('Layer Error')
 # ax2.set_title('Layer Error Zoomed')
-ax2.set_ylim(0,1.5)
 # ax1.set_xlim(70,108)
 # ax2.set_xlim(70,108)
-# fig.savefig('rms_plot_rev.eps', dpi=fig.dpi)
+fig.savefig('rms_plot_comp.png', dpi=fig.dpi)
 plt.show()

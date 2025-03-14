@@ -7,6 +7,7 @@ from motoman_def import robot_obj, positioner_obj
 from robotics_utils import H_inv
 sys.path.append('../../Welding_Motoman/toolbox')
 from angled_layers import avg_by_line, rotate, LiveFilter
+import scienceplots
 
 def rms_error(data):
     data = np.array(data)
@@ -22,6 +23,35 @@ config_dir = "../../Welding_Motoman/config/"
 dataset = "bent_tube/"
 sliced_alg = "slice_ER_4043_large_hot/"
 data_dir = "../../Welding_Motoman/data/" + dataset + sliced_alg
+
+plt.style.use('science')
+# colors = plt.rcParams['axes.prop_cycle'].by_key()['color']
+# print('\n'.join(color for color in colors))
+# exit()
+plt.rcParams['text.usetex'] = True
+
+fig,ax=plt.subplots()
+fig.set_size_inches(5,4)
+fig.set_dpi(300)
+marker_size = 2
+plt_colors = [
+    '#0C5DA5',
+    '#00B945',
+    '#FF9500',
+    '#FF2C00',
+]
+plt_styles = [
+    'solid',
+    'dotted',
+    'dashed',
+    'dashdot'
+]
+marker_styles = [
+    'o',
+    '^',
+    's',
+    'D'
+]
 
 # flame_set = 'processing_data/ER4043_bent_tube_2024_09_04_12_23_40_flame.pkl'
 flame_set = [
@@ -113,16 +143,21 @@ for idx,flame in enumerate(flame_set):
         flame[:, 1] = new_x
         flame[:, 3] = new_z - base_thickness
         flame[:,0] = flame[:,0]-job_no_offset
-        if layer == 103:
+        if layer == 101:
             filter = LiveFilter()
             for i in range(flame.shape[0]):
                 flames_filter.append(filter.process(flame[i,1:])[2])
-            plt.plot(flame[50:-50,3])
-            plt.plot(flames_filter[50:-50])
-            plt.xlabel("Timestep")
-            plt.ylabel("Error (mm)")
-            plt.title(f"Filter Comparison Layer {layer}")
+            time = np.linspace(0,len(flame)/30, len(flame))
+            start_idx = 32
+            ax.plot(time[start_idx:],flame[start_idx:,3], c=plt_colors[0])
+            ax.plot(time[start_idx:],flames_filter[start_idx:], c=plt_colors[2])
+            ax.set_xlabel("Time (s)")
+            ax.set_ylabel("Error (mm)")
+            ax.set_title(f"Height Filter Comparison Layer {layer}")
+            ax.legend(["Raw","Filtered"])
+            fig.savefig('filter_comp_101.png', dpi=fig.dpi)
             plt.show()
+
         # plt.plot(flame[:,1], flame[:,3])
         averages= avg_by_line(flame[:,0], flame[:,1:], np.linspace(0,49,50))
         height_err.append(averages[:,2])
