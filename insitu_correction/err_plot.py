@@ -73,7 +73,7 @@ plt.rcParams['text.usetex'] = True
 fig, ax= plt.subplots()
 fig.set_size_inches(5,4)
 fig.set_dpi(300)
-marker_size = 2
+marker_size = 15
 plt_colors = [
     '#0C5DA5',
     '#00B945',
@@ -99,8 +99,8 @@ marker_styles = [
 #         "Closed-Loop Hot Model"
 #         ]
 labels = [
-        'Layer Planning Only',
-        'In-Process Correction'
+        'Layer-to-Layer\nCorrection Only',
+        'Layer-to-Layer and\nIn-Layer Correction'
         ]
 
 err_set = [
@@ -122,13 +122,13 @@ ax.scatter(
         s=marker_size, 
         marker=marker_styles[0],
         label = labels[0],
-        color = plt_colors[0]
+        color = plt_colors[1]
         )
 ax.plot(
         layer_no,
         err_data,
         alpha=0.3,
-        color = plt_colors[0]
+        color = plt_colors[1]
         )
 print("-----Planning Stats------")
 print("Mean Error: ", np.mean(err_data))
@@ -143,13 +143,13 @@ ax.scatter(
         s=marker_size, 
         marker=marker_styles[1],
         label = labels[1],
-        color = plt_colors[1]
+        color = plt_colors[0]
         )
 ax.plot(
         layer_no,
         err_data,
         alpha=0.3,
-        color = plt_colors[1]
+        color = plt_colors[0]
         )
 
 # print stats
