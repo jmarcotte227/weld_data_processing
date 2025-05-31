@@ -38,7 +38,7 @@ for idx, TEST_ID in enumerate(TEST_IDS):
 
     for layer in range(1,layer_count):
         # load raw data (since it is compiled per layer)
-        vel_set = np.loadtxt(f'{RAW_DATA_PATH}/{TEST_ID}/layer_{layer}/velocity_profile.csv', delimiter=',')
+        vel_set = np.loadtxt(f'{RAW_DATA_PATH}/{TEST_ID}/layer_{layer+1}/velocity_profile.csv', delimiter=',')
         # find layer direction
         direction = np.loadtxt(
             f"{RAW_DATA_PATH}/{TEST_ID}/layer_{layer}/start_dir.csv",
