@@ -13,7 +13,7 @@ def rms_error(data):
     n = 0
     num = 0
     for i in data:
-        if not np.isnan(i): 
+        if not np.isnan(i):
             num = num + i**2
             n+=1
     return np.sqrt(num/n)

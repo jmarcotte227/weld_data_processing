@@ -52,8 +52,20 @@ for layer in [101,103]:
     ax1.set_ylabel("Velocity (mm/s)")
     ax2.set_ylabel("Error (mm)")
     ax1.set_title(f"Layer {layer-82} Velocity")
-    ax1.legend()
-    ax2.legend()
+    ax1.legend(facecolor='white', 
+           framealpha=0.8,
+           frameon=True,
+           # loc='lower center',
+           # ncol=2,
+           # bbox_to_anchor=(0.5,-0.8)
+           )
+    ax2.legend(facecolor='white', 
+           framealpha=0.8,
+           frameon=True,
+           # loc='lower center',
+           # ncol=2,
+           # bbox_to_anchor=(0.5,-0.8)
+           )
     ax1.set_ylim(2.2, 8.5)
     ax2.set_ylim(-2,0.6)
     ax2.grid()

@@ -154,7 +154,15 @@ for idx,flame in enumerate(flame_set):
             ax.set_xlabel("Time (s)")
             ax.set_ylabel("Error (mm)")
             ax.set_title(f"Height Filter Comparison Layer {layer-82}")
-            ax.legend(["Raw","Filtered"])
+            ax.legend(["Raw","Filtered"],
+                      facecolor='white', 
+                      framealpha=0.8,
+                      frameon=True,
+           # loc='lower center',
+           # ncol=2,
+           # bbox_to_anchor=(0.5,-0.8)
+           )
+            ax.grid()
             fig.savefig('filter_comp_19.png', dpi=fig.dpi)
             plt.show()
 
