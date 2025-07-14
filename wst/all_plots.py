@@ -10,6 +10,7 @@ from scipy.io import wavfile
 TEST_ID = 'weld_40IPM_404320250703-131217'
 # TEST_ID = 'weld_100IPM_20250703-140141'
 FRAMERATE = 90
+EPS = 1e-1
 
 ### filepaths ###
 data_dir = f'../../wst_data/{TEST_ID}/'
@@ -43,7 +44,7 @@ spec_times = spec_counts[:,0]-spec_counts[0,0]
 
 other_start = spec_counts[0,0]
 vid_times = vid_times-(other_start-vid_start)
-print(vid_times)
+# print(vid_times)
 
 # setup plots
 ax = []
@@ -53,17 +54,20 @@ ax.append(plt.subplot(gs[:,0]))
 ax.append(plt.subplot(gs[0,1]))
 ax.append(plt.subplot(gs[1,1]))
 
+# fig.subplots(sharex='col')
 # plot spectrogram
 ax[1].pcolormesh(times, frequencies, np.log(spectrogram))
 line_1, = ax[1].plot([0,0], [frequencies[0], frequencies[-1]], alpha=0.5, color='r')
 ax[1].set_title('Acoustic Spectrogram')
 ax[1].set_ylabel('Frequency [Hz]')
 ax[1].set_xlabel('Time [sec]')
+ax[1].set_xlim(0,times[-1])
 ax[2].pcolormesh(spec_times, wavelengths, spec_counts[:,1:].T)
 line_2, = ax[2].plot([0,0], [wavelengths[0], wavelengths[-1]], alpha=0.5, color='r')
 ax[2].set_title('Emission Spectrogram')
 ax[2].set_ylabel('Wavelength [m]')
 ax[2].set_xlabel('Time [sec]')
+ax[1].set_xlim(0,times[-1])
 
 # initialize video
 video_im = ax[0].imshow(video_frames[0])
@@ -87,8 +91,9 @@ ani = animation.FuncAnimation(
 )
 fig.set_size_inches(10,5)
 plt.tight_layout()
+plt.show()
 # Set up formatting for the movie files
-writer = animation.FFMpegWriter(fps=FRAMERATE)
-ani.save(f'plots_{TEST_ID}.mp4', writer=writer)
+# writer = animation.FFMpegWriter(fps=FRAMERATE)
+# ani.save(f'plots_{TEST_ID}.mp4', writer=writer)
 
-plt.close()
+# plt.close()
