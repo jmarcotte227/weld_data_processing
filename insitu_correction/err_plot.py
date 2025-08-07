@@ -71,7 +71,7 @@ plt.style.use('science')
 plt.rcParams['text.usetex'] = True
 
 fig, ax= plt.subplots()
-fig.set_size_inches(5,4)
+fig.set_size_inches(7,4)
 fig.set_dpi(300)
 marker_size = 15
 plt_colors = [
@@ -177,5 +177,5 @@ ax.set_title('Layer Error')
 # ax2.set_title('Layer Error Zoomed')
 # ax1.set_xlim(70,108)
 # ax2.set_xlim(70,108)
-fig.savefig('rms_plot_comp.png', dpi=fig.dpi)
+fig.savefig('rms_plot_comp_pres.png', dpi=fig.dpi)
 plt.show()
