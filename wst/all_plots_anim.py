@@ -8,7 +8,9 @@ from scipy import signal
 from scipy.io import wavfile
 
 # TEST_ID = 'weld_40IPM_404320250703-131217'
-TEST_ID = 'weld_100IPM_20250703-140141'
+# TEST_ID = 'weld_100IPM_20250703-140141'
+# TEST_ID = 'KEEP_40IPM_braid_120250807-113051'
+TEST_ID = 'Keep_80IPM_bead_220250807-114712'
 FRAMERATE = 90
 EPS = 1e-1
 
@@ -66,7 +68,7 @@ ax[1].set_xlim(0,times[-1])
 
 line_2, = ax[2].plot(wavelengths, spec_counts[0,1:])
 ax[2].set_title('Spectral Emissions')
-ax[2].set_xlabel('Wavelength [m]')
+ax[2].set_xlabel('Wavelength [nm]')
 ax[2].set_ylabel('Counts')
 ax[2].set_xlim(wavelengths[0],wavelengths[-1])
 ax[2].set_ylim(-1, 2000)
@@ -97,9 +99,9 @@ ani = animation.FuncAnimation(
 )
 fig.set_size_inches(10,5)
 plt.tight_layout()
-plt.show()
+# plt.show()
 # Set up formatting for the movie files
-# writer = animation.FFMpegWriter(fps=FRAMERATE)
-# ani.save(f'plots_{TEST_ID}.mp4', writer=writer)
+writer = animation.FFMpegWriter(fps=FRAMERATE)
+ani.save(f'plots_{TEST_ID}.mp4', writer=writer)
 
-# plt.close()
+plt.close()

@@ -129,5 +129,5 @@ cbar.set_label("Brightness Temperature", size=18)
 ani = FuncAnimation(fig, update, frames = 5087, interval=5, repeat=False)
 
 # Create animation
-ani.save('cold_ol_temp.mp4', dpi=300)
+# ani.save('cold_ol_temp.mp4', dpi=300)
 plt.show()

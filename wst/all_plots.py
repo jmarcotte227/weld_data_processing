@@ -7,8 +7,9 @@ import cv2
 from scipy import signal
 from scipy.io import wavfile
 
-TEST_ID = 'weld_40IPM_404320250703-131217'
+# TEST_ID = 'weld_40IPM_404320250703-131217'
 # TEST_ID = 'weld_100IPM_20250703-140141'
+TEST_ID = 'KEEP_40IPM_braid_120250807-113051'
 FRAMERATE = 90
 EPS = 1e-1
 
@@ -91,9 +92,9 @@ ani = animation.FuncAnimation(
 )
 fig.set_size_inches(10,5)
 plt.tight_layout()
-plt.show()
+# plt.show()
 # Set up formatting for the movie files
-# writer = animation.FFMpegWriter(fps=FRAMERATE)
-# ani.save(f'plots_{TEST_ID}.mp4', writer=writer)
+writer = animation.FFMpegWriter(fps=FRAMERATE)
+ani.save(f'plots_{TEST_ID}.mp4', writer=writer)
 
-# plt.close()
+plt.close()
