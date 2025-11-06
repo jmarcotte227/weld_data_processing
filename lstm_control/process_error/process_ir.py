@@ -26,7 +26,9 @@ data_dir = "../../../Welding_Motoman/data/" + dataset + sliced_alg
 HEIGHT_OFFSET = -7.92870911432761 
 
 CONFIG_DIR = "../../../Welding_Motoman/config/"
-REC_DIR = "../../../recorded_data/wall_lstm_control_2025_10_31_14_30_40/"
+# REC_DIR = "../../../recorded_data/wall_lstm_baseline_control_2025_11_05_12_38_13/"
+REC_DIR = "../../../recorded_data/wall_lstm_control_2025_11_05_13_17_59/"
+# REC_DIR = "../../../recorded_data/wall_lstm_control_2025_10_31_14_30_40/"
 # REC_DIR = "../../../recorded_data/wall_lstm_control_2025_10_31_13_34_50/"
 
 with open(data_dir + "sliced_meta.yml", "r") as file:
@@ -88,7 +90,7 @@ for layer in tqdm(range(slicing_meta["layer_num"])):
         ir_error_flag = True
         height_err = np.zeros(slicing_meta["layer_length"])
     else:
-        averages_prev = avg_by_line(job_no_prev, flame_3d_prev, np.linspace(0,slicing_meta['layer_length']-1,slicing_meta['layer_length']))
+        averages_prev = avg_by_line(job_no_prev, flame_3d_prev, np.linspace(0,slicing_meta['layer_length']-2,slicing_meta['layer_length']-1))
         heights_prev = averages_prev[:,2]
         if not start_dir: heights_prev = np.flip(heights_prev)
 
