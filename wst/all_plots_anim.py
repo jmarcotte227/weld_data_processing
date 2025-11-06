@@ -69,7 +69,7 @@ ax[2].set_title('Spectral Emissions')
 ax[2].set_xlabel('Wavelength [m]')
 ax[2].set_ylabel('Counts')
 ax[2].set_xlim(wavelengths[0],wavelengths[-1])
-ax[2].set_ylim(-1, 1000)
+ax[2].set_ylim(-1, 2000)
 
 # initialize video
 video_im = ax[0].imshow(video_frames[0])
