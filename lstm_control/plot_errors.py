@@ -31,14 +31,15 @@ errors_2 = np.loadtxt(
 # rms error calc
 fig, ax = plt.subplots(1,1)
 rms_errors_1 = []
-for layer in range(25, errors_1.shape[0]):
+for layer in range(errors_1.shape[0]):
     rms_errors_1.append(rms_error(errors_1[layer,2:-2]))
     # rms_errors_1.append(rms_error(errors_1[layer,:]))
 ax.plot(rms_errors_1)
 rms_errors = []
-for layer in range(25, errors_2.shape[0]):
-    rms_errors.append(rms_error(errors_2[layer,2:-2]))
-    # rms_errors.append(rms_error(errors_2[layer,:]))
+for layer in range(errors_2.shape[0]):
+    # rms_errors.append(rms_error(errors_2[layer,2:-2]))
+    rms_errors.append(rms_error(errors_2[layer,:]))
+print(f"RMS 1: {rms_errors[0]}")
 ax.plot(rms_errors)
 
 ax.legend([
