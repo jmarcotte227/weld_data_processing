@@ -48,20 +48,31 @@ def main():
     # load flame data
     with open(f"proc_ir_vid/{DATASET}_flame.pkl", 'rb') as file:
         flame = pickle.load(file)
+
+    fig,ax = plt.subplots()
+
     dhs = []
     nan_list=np.empty(50)
     nan_list[:]=np.nan
     dhs.append(nan_list)
     for layer in range(1,num_layer):
-        prev_flame = np.flip(flame[layer-1], axis=0)
+        prev_flame = flame[layer-1]
+        # print("P: ", prev_flame)
         curr_flame = flame[layer]
+        # print("C: ", curr_flame)
 
-        prev_flame_avg = avg_by_line(prev_flame[:,0], prev_flame[:,1:], np.linspace(0,49,50)) 
+        prev_flame_avg = avg_by_line(prev_flame[:,0], prev_flame[:,1:], np.linspace(49,0,50)) 
         curr_flame_avg = avg_by_line(curr_flame[:,0], curr_flame[:,1:], np.linspace(0,49,50))
+
+        if layer%2:
+            ax.plot(curr_flame_avg[:,2])
+        else:
+            ax.plot(np.flip(curr_flame_avg[:,2]))
 
         dhs.append(curr_flame_avg[:,2]-prev_flame_avg[:,2])
 
     dhs=np.array(dhs)
+    plt.show()
     print(dhs.shape)
     np.savetxt(f"calc_dh/{DATASET}_dh.csv", dhs, delimiter=',')
 

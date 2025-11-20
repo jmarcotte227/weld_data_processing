@@ -57,6 +57,7 @@ def main():
                 robot2,
                 positioner,
                 flir_intrinsic,
+                HEIGHT_OFFSET
             )
             if flame_3d.shape[0]==0:
                 raise ValueError("no flame detected")
