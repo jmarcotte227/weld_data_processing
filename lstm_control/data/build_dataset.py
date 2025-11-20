@@ -30,15 +30,15 @@ for idx, TEST_ID in enumerate(TEST_IDS):
     layer_count = dh_data.shape[0]
     part_dict = {}
 
-    for layer in range(1,layer_count):
+    for layer in range(0,layer_count):
         # find layer direction
         direction = np.loadtxt(
             f"{RAW_DATA_PATH}/{TEST_ID}/layer_{layer}/start_dir.csv",
             delimiter=','
             )
         layer_dict = {
-                'dh':dh_data[layer][1:-1],
-                'vel_set':vel_set[1:-1],
+                'dh':dh_data[layer][:],
+                'vel_set':vel_set[layer,:],
                 # 'vel_calc':vel_calc[layer][1:-1],
                 # 'avg_temp':temp[layer][1:-1],
                 # 'max_temp':max_temp[layer][1:-1],

@@ -27,7 +27,7 @@ def main():
         for idx in idxs:
             loc = np.where(v_cmd_idx==idx)[0][0]
             v_cmd_list[layer,idx] = v_cmd_all[loc]
-        
+
     np.savetxt(f"v_set/{DATASET}_v_cmd.csv", v_cmd_list, delimiter=',')
 
 if __name__=="__main__":
