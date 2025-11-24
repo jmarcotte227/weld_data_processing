@@ -10,6 +10,7 @@ sys.path.append("../../../Welding_Motoman/toolbox/")
 from angled_layers import avg_by_line
 
 def main():
+    TRIM = 1
     REC_DIR = "../../../recorded_data/"
     # DATASET = "2025_11_19_11_50_06_AL_WLJ_dataset0"
     # DATASET = "2025_11_19_12_20_00_AL_WLJ_dataset1"
@@ -52,9 +53,11 @@ def main():
     fig,ax = plt.subplots()
 
     dhs = []
-    nan_list=np.empty(50)
+    hs = []
+    nan_list=np.empty(50-2*TRIM)
     nan_list[:]=np.nan
     dhs.append(nan_list)
+    hs.append(nan_list)
     for layer in range(1,num_layer):
         prev_flame = flame[layer-1]
         # print("P: ", prev_flame)
@@ -66,24 +69,32 @@ def main():
 
         if layer%2:
             ax.plot(curr_flame_avg[:,2])
+            # hs.append(curr_flame_avg[:,2])
         else:
             ax.plot(np.flip(curr_flame_avg[:,2]))
-
-        dhs.append(curr_flame_avg[:,2]-prev_flame_avg[:,2])
-
+            # hs.append(np.flip(curr_flame_avg[:,2]))
+        dhs.append(curr_flame_avg[TRIM:-TRIM,2]-prev_flame_avg[TRIM:-TRIM,2])
+        hs.append(curr_flame_avg[TRIM:-TRIM,2])
+    ax.set_xlabel("Segment Index")
+    ax.set_ylabel("H")
     dhs=np.array(dhs)
     plt.show()
-    print(dhs.shape)
-    np.savetxt(f"calc_dh/{DATASET}_dh.csv", dhs, delimiter=',')
+    # np.savetxt(f"calc_dh/{DATASET}_dh.csv", dhs, delimiter=',')
+    # np.savetxt(f"calc_h/{DATASET}_h.csv", hs, delimiter=',')
 
     if True:
+        fig,ax = plt.subplots(1,1)
         for layer in range(1,num_layer):
-            if layer%2:
-                plt.plot(dhs[layer])
-            else:
-                plt.plot(np.flip(dhs[layer]))
-            # plt.plot(dhs[layer])
+            # if layer%2:
+            #     plt.plot(dhs[layer])
+            # else:
+            #     plt.plot(np.flip(dhs[layer]))
+            ax.plot(dhs[layer])
+        ax.set_xlabel("Segment Index")
+        ax.set_ylabel("dH")
+        ax.set_title("dH - Same Direction")
         plt.show()
+
 
 if __name__=="__main__":
     main()
