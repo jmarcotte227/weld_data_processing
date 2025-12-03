@@ -19,9 +19,9 @@ from angled_layers import avg_by_line
 def main():
     TRIM=1
     REC_DIR = "../../../recorded_data/"
-    # DATASET = "2025_11_19_11_50_06_AL_WLJ_dataset0"
+    DATASET = "2025_11_19_11_50_06_AL_WLJ_dataset0"
     # DATASET = "2025_11_19_12_20_00_AL_WLJ_dataset1"
-    DATASET = "2025_11_19_12_50_06_AL_WLJ_dataset2"
+    # DATASET = "2025_11_19_12_50_06_AL_WLJ_dataset2"
     # DATASET = "2025_11_19_13_19_53_AL_WLJ_dataset3"
 
     # load robot config
@@ -64,6 +64,7 @@ def main():
             else:
                 cart_dif=robot1_pose.p-pose_prev
                 time_dif = time_stamp-time_prev
+                # time_dif = (1/125)
                 time_prev = time_stamp
                 cart_vel = cart_dif/time_dif
                 time_prev = time_stamp
