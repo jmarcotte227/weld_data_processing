@@ -6,8 +6,10 @@ if __name__=='__main__':
     DATASET = "2025_11_19_11_50_06_AL_WLJ_dataset0"
     # DATASET = 'wall_lstm_control_2025_11_05_13_17_59'
     # DATASET = "2025_12_03_11_29_23_WLJAL_velocity_testing2"
+    DATASET =  "2025_12_12_14_46_12_WLJ_AL_new_delay_test"
+    # DATASET =  "2025_12_12_14_54_31_WLJ_AL_old_delay"
     REC_DIR = '../../../recorded_data/'
-    LAYER = 2
+    LAYER = 5
     # problem layers 2,4,8
 
     # load robot config
@@ -123,17 +125,21 @@ if __name__=='__main__':
     plot_max = -1
     
     print(len(time_stamps_cmd))
-    # print(len(loop_times))
     fig, ax = plt.subplots(2,1, sharex=True)
-    ax[0].scatter(time_stamps-t_start, cart_vels)
-    ax[0].scatter(time_stamps_cmd-t_start, cart_vels_cmd)
-    ax[0].scatter(time_stamps_ext-t_start, cart_vels_ext)
+    # fig.set_size_inches(10, 5)
+    # ax[0].scatter(time_stamps-t_start, cart_vels)
+    # ax[0].scatter(time_stamps_cmd-t_start, cart_vels_cmd)
+    ax[0].scatter(time_stamps_cmd-t_start, joint_data_cmd[:-1,5])
+
+    # ax[0].scatter(time_stamps_ext-t_start, cart_vels_ext)
     # ax[0].scatter(time_stamps_cmd-t_start, v_cmd[1:])
     ax[1].scatter(time_stamps-t_start, time_difs)
     ax[1].scatter(time_stamps_cmd-t_start, time_difs_cmd)
     ax[1].scatter(time_stamps_ext-t_start, time_difs_ext)
+    ax[1].plot([time_stamps_cmd[0]-t_start, time_stamps_cmd[-1]-t_start], [0.008, 0.008], 'r--')
     ax[0].set_title("Velocitys")
-    ax[0].set_ylabel("Velocity (mm/s)")
+    # ax[0].set_ylabel("Velocity (mm/s)")
+    ax[0].set_ylabel("Joint 4 Position (rad)")
     ax[1].set_title("Time Step")
     ax[1].set_xlabel("Clock Time (s)")
     ax[1].set_ylabel("Time Step (s)")
