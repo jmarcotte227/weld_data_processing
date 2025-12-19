@@ -3,7 +3,7 @@ import matplotlib.pyplot as plt
 from motoman_def import robot_obj, positioner_obj
 
 if __name__=='__main__':
-    # DATASET = "2025_11_19_11_50_06_AL_WLJ_dataset0"
+    DATASET = "2025_11_19_11_50_06_AL_WLJ_dataset0"
     # DATASET = 'wall_lstm_control_2025_11_05_13_17_59'
     # DATASET = "2025_12_03_11_29_23_WLJAL_velocity_testing2"
     DATASET =  "2025_12_12_14_46_12_WLJ_AL_new_delay_test"
@@ -43,6 +43,7 @@ if __name__=='__main__':
     v_cmd = np.loadtxt(f"{REC_DIR}{DATASET}/layer_{LAYER}/v_cmd.csv", delimiter=',')
 
     t_start = joint_data[0,0]
+    cart_pos_x = []
     cart_vels = []
     cart_vels_cmd = []
     cart_vels_ext = []
@@ -80,6 +81,7 @@ if __name__=='__main__':
     idx_high = joint_data_cmd.shape[0]
     for idx in range(idx_low, idx_high):
         robot1_pose=robot.fwd(joint_data_cmd[idx][2:8])
+        cart_pos_x.append(robot1_pose.p[0])
         time_stamp=joint_data_cmd[idx][0]
         # if idx==0:
         if idx==idx_low:
@@ -142,6 +144,18 @@ if __name__=='__main__':
     ax[1].set_xlabel("Clock Time (s)")
     ax[1].set_ylabel("Time Step (s)")
     ax[0].legend(["Measured","Commanded Joint"])
+    # ax[2].scatter(time_stamps_cmd-t_start, loop_times[:-1])
+    plt.show()
+
+    print(len(time_stamps_cmd))
+    print(len(cart_pos_x))
+    fig,ax = plt.subplots(2,1, sharex=True)
+    # ax[0].scatter(time_stamps_cmd-t_start, joint_data_cmd[:-1, 5])
+    ax[0].scatter(time_stamps_cmd-t_start, cart_pos_x[:-1])
+    ax[0].set_ylabel("Commanded X Position")
+    ax[1].set_xlabel("Clock Time (s)")
+    ax[1].scatter(time_stamps_cmd-t_start, time_difs_cmd)
+    ax[1].set_ylabel("Time Step (s)")
     plt.show()
 
 
