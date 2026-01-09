@@ -12,7 +12,7 @@ rc('font',**{'family':'sans-serif','sans-serif':['Helvetica']})
 rc('text', usetex=True)
 
 # colors = ["#7fc97f","#beaed4","#fdc086"]
-colors = ["#66c2a5","#fc8d62","#8da0cb"]
+colors = ["#66c2a5","#fc8d62","#8da0cb","#ffff99", "#386cb0", "#f0027f"]
 
 DATA_DIR = "data/"
 # load baseline test set
@@ -32,7 +32,7 @@ ax.hist(
     errors,
     bins=100,
     density=True,
-    color=colors[0]
+    color=colors[4]
 )
 
 # plot normal distribution over this
@@ -49,12 +49,13 @@ ax.plot(
         loc=loc,
         scale=scale,
     ),
-    color=colors[1]
+    color=colors[5]
 )
 # labels
 ax.spines[['right', 'top']].set_visible(False)
 ax.set_ylabel("Density")
 ax.set_xlabel("Predicition Error (mm)")
+ax.legend(["Laplace Distribution Fit","Prediction Error"])
 
 fig.suptitle("Noise", fontsize=20)
 fig.tight_layout()

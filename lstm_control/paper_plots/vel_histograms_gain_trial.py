@@ -17,74 +17,30 @@ def rms(x):
     return np.sqrt(np.sum(np.square(x))/len(x))
 
 
-##### NO NOISE #####
-# baseline
-test_data_1 = torch.load(f"{DATA_DIR}Log-Log_Baseline_noise_False_pmodel_h-8_part-0_loss-0.2000_cmodel_h-8_part-1_loss-0.068420251229-161948/test_results.pt")
-
-# Single Layer LSTM
-test_data_2 = torch.load(f"{DATA_DIR}Linearized_QP_Control_noise_False_pmodel_h-8_part-0_loss-0.2000_cmodel_h-8_part-1_loss-0.068420251229-161848/test_results.pt")
-
-# multi-layer LSTM
-test_data_3 = torch.load(f"{DATA_DIR}/AS_Linearized_QP_Control_noise_False_pmodel_h-8_part-0_loss-0.2000_cmodel_h-8_part-1_loss-0.041120251229-163214/test_results.pt")
-save_name = 'vel_histograms.png'
+A_IDX = 8
+B_IDX = 8
+DH_IDX = 4
+##########
+test_data_1 = torch.load(f"{DATA_DIR}/20260107-043810_gain_tests/test_results.pt")
+vel_data = test_data_1["velocity"] 
 ####################
-##### WITH NOISE #####
-# baseline
-test_data_1n = torch.load(f"{DATA_DIR}Log-Log_Baseline_noise_True_pmodel_h-8_part-0_loss-0.2000_cmodel_h-8_part-1_loss-0.068420251229-162011/test_results.pt")
-
-# Single Layer LSTM
-test_data_2n = torch.load(f"{DATA_DIR}Linearized_QP_Control_noise_True_pmodel_h-8_part-0_loss-0.2000_cmodel_h-8_part-1_loss-0.068420251229-161920/test_results.pt")
-
-# multi-layer LSTM
-test_data_3n = torch.load(f"{DATA_DIR}AS_Linearized_QP_Control_noise_True_pmodel_h-8_part-0_loss-0.2000_cmodel_h-8_part-1_loss-0.041120251229-163437/test_results.pt")
-# save_name = 'final_error_noise.png'
-####################
-fig, ax = plt.subplots(2,2)
-bins = ax[0,0].hist(
-    test_data_1["u_cmd_all"].reshape(-1),
+fig, ax = plt.subplots(1,1)
+bins = ax.hist(
+    vel_data[B_IDX, A_IDX, DH_IDX, :,:,:].reshape(-1),
     bins=20,
     density=True,
     color=colors[0],
     rwidth=0.95
 )[1]
-ax[1,0].hist(
-    test_data_2["u_cmd_all"].reshape(-1),
-    bins=bins,
-    density=True,
-    color=colors[1],
-    rwidth=0.95
-)
-bins = ax[0,1].hist(
-    test_data_1n["u_cmd_all"].reshape(-1),
-    bins=20,
-    density=True,
-    color=colors[0],
-    rwidth=0.95
-)[1]
-ax[1,1].hist(
-    test_data_2n["u_cmd_all"].reshape(-1),
-    bins=bins,
-    density=True,
-    color=colors[1],
-    rwidth=0.95
-)
 # labels
 # ax[0,0].set_ylim(ax[1,0].set_ylim(ax[2,0].set_ylim(ax[0,1].set_ylim(ax[1,1].set_ylim(ax[2,1].set_ylim())))))
 # ax[2].set_xlabel("Command Velocity (mm/s)")
-ax[0,0].set_title("Log-Log Baseline")
-ax[1,0].set_title("LSTM MPC")
-ax[0,1].set_title("Log-Log Baseline - Noise")
-ax[1,1].set_title("LSTM MPC - Noise")
-
-for row_a in ax:
-    for a in row_a:
-        a.spines[['right', 'top']].set_visible(False)
-        a.set_ylabel("Density")
-        a.set_xlabel("Command Velocity (mm/s)")
+ax.spines[['right', 'top']].set_visible(False)
+ax.set_ylabel("Density")
+ax.set_xlabel("Command Velocity (mm/s)")
 
 fig.suptitle("Commanded Velocity Distributions", fontsize=20)
 fig.tight_layout()
-plt.savefig(f"output_plots/{save_name}", dpi=300)
 plt.show()
 # fig, ax = plt.subplots(3,2)
 # bins = ax[0,0].hist(

@@ -17,50 +17,56 @@ colors = ["#66c2a5","#fc8d62","#8da0cb"]
 DATA_DIR = "data/"
 # load baseline test set
 
-test_data_n= torch.load(f"{DATA_DIR}Linearized_QP_Control_noise_True_pmodel_h-8_part-0_loss-0.2000_cmodel_h-8_part-1_loss-0.068420260105-135439/test_results.pt")
-test_data= torch.load(f"{DATA_DIR}Linearized_QP_Control_noise_False_pmodel_h-8_part-0_loss-0.2000_cmodel_h-8_part-1_loss-0.068420260105-134846/test_results.pt")
+##### NO NOISE #####
+# baseline
+test_data_1 = torch.load(f"{DATA_DIR}Log-Log_Baseline_noise_False_pmodel_h-8_part-0_loss-0.2000_cmodel_h-8_part-1_loss-0.068420260107-133050/test_results.pt")
 
+# Single Layer LSTM
+test_data_2 = torch.load(f"{DATA_DIR}Linearized_QP_Control_noise_False_pmodel_h-8_part-0_loss-0.2000_cmodel_h-8_part-1_loss-0.068420260107-132840/test_results.pt")
+
+save_name = 'final_error.png'
+####################
+##### WITH NOISE #####
+# baseline
+test_data_1n = torch.load(f"{DATA_DIR}Log-Log_Baseline_noise_True_pmodel_h-8_part-0_loss-0.2000_cmodel_h-8_part-1_loss-0.068420260107-132945/test_results.pt")
+
+# Single Layer LSTM
+test_data_2n = torch.load(f"{DATA_DIR}Linearized_QP_Control_noise_True_pmodel_h-8_part-0_loss-0.2000_cmodel_h-8_part-1_loss-0.068420260107-132812/test_results.pt")
+####################
+
+datasets = [test_data_1, test_data_1n, test_data_2, test_data_2n]
+# color_choice = [colors[0], colors[0], colors[1], colors[1]]
+# markers=['o', 'o', 'o', 'o']
+face_colors = [colors[0], 'none', colors[1], 'none']
+edge_colors = [colors[0], colors[0], colors[1], colors[1]]
 
 fig, ax = plt.subplots(1,1)
-errors = np.zeros(test_data["num_layers"])
-errors_all = np.zeros_like(test_data["dh_d"])
-# calculate rms at each layer
-# fig,ax = plt.subplots(1,1)
-for layer in range(test_data["num_layers"]):
-    layer_error = test_data["dh_d"][layer].numpy()-test_data["dh"][layer].numpy()
-    # ax.plot(layer_error)
-    errors[layer] = rms(layer_error)
+for idx, d_set in enumerate(datasets):
+    errors = np.zeros(d_set["num_layers"])
 
-# ax.set_xlabel("Seg Idx")
-# ax.set_ylabel("dH Error (mm)")
-# plt.show()
-ax.scatter(
-    np.linspace(1,50,50),
-    errors,
-)
-# fig_n, ax_n = plt.subplots(1,1)
-for layer in range(test_data_n["num_layers"]):
-    layer_error = test_data_n["dh_d"][layer].numpy()-test_data_n["dh"][layer].numpy()
-    # ax_n.plot(layer_error)
-    errors[layer] = rms(layer_error)
-    errors_all[layer,:] = layer_error
+    # calculate rms at each layer
+    for layer in range(d_set["num_layers"]):
+        layer_error = d_set["dh_d"][layer].numpy()-d_set["dh"][layer].numpy()
+        errors[layer] = rms(layer_error)
 
-# ax_n.set_xlabel("Seg Idx")
-# ax_n.set_ylabel("dH Error (mm)")
-ax.scatter(
-    np.linspace(1,50,50),
-    errors,
-)
+    ax.scatter(
+        np.linspace(1,100,100),
+        errors,
+        # color=color_choice[idx],
+        # marker=markers[idx],
+        edgecolors=edge_colors[idx],
+        facecolors=face_colors[idx],
+    )
 
 # labels
-ax.set_ylabel("dH Error (mm)")
-ax.set_xlabel("Layer")
+ax.set_ylabel("RMSE (mm)")
+ax.set_xlabel("Layer Number")
 ax.spines[['right', 'top']].set_visible(False)
-ax.legend(["No Noise","Noise Applied"])
+ax.legend(["Log-Log Baseline","Log-Log Baseline Noise", "LSTM MPC", "LSTM MPC Noise"])
 
-fig.suptitle("dH Error", fontsize=20)
+fig.suptitle("Reference Tracking Error", fontsize=20)
 fig.tight_layout()
-plt.savefig("output_plots/final_error.png", dpi=300)
+plt.savefig("output_plots/tracking.png", dpi=300)
 plt.show()
 
 fig,ax=plt.subplots()
