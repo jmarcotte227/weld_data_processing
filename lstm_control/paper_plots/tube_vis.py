@@ -19,15 +19,14 @@ def main():
     colors = ["#66c2a5","#fc8d62","#8da0cb"]
 
     # dataset
-    test_data = torch.load(f"{DATA_DIR}tube_Linearized_QP_Control_noise_True_pmodel_h-8_part-0_loss-0.2000_cmodel_h-8_part-1_loss-0.068420260105-133232/test_results.pt")
+    test_data = torch.load(f"{DATA_DIR}tube_Log-Log_Baseline_noise_True_pmodel_h-8_part-0_loss-0.2000_cmodel_h-8_part-1_loss-0.068420260105-143325/test_results.pt")
+    # test_data = torch.load(f"{DATA_DIR}tube_Linearized_QP_Control_noise_True_pmodel_h-8_part-0_loss-0.2000_cmodel_h-8_part-1_loss-0.068420260105-133232/test_results.pt")
     # test_data = torch.load(f"{DATA_DIR}tube_Linearized_QP_Control_noise_True_pmodel_h-8_part-0_loss-0.2000_cmodel_h-8_part-1_loss-0.068420260105-132924/test_results.pt")
     # test_data = torch.load(f"{DATA_DIR}tube_Linearized_QP_Control_noise_True_pmodel_h-8_part-0_loss-0.2000_cmodel_h-8_part-1_loss-0.068420260105-110930/test_results.pt")
 
 
 
     h = test_data["H"].numpy()
-    print(type(test_data["H_d"][0]))
-    print((test_data["H_d"][0]))
 
     # min max dh
     dh_min = np.min(test_data["H_d"][0].numpy(), axis=0)
