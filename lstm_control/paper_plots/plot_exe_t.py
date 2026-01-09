@@ -10,10 +10,16 @@ rc('text', usetex=True)
 # colors = ["#7fc97f","#beaed4","#fdc086"]
 colors = ["#66c2a5","#fc8d62","#8da0cb","#ffff99", "#386cb0", "#f0027f"]
 
-test_data_2 = torch.load(f"data/Linearized_QP_Control_plantfb_False_pmodel_h-8_part-0_loss-0.4866_cmodel_h-8_part-1_loss-0.041120251218-233750/test_results.pt")
+DATA_DIR = "data/"
+# dataset
+test_data_1 = torch.load(f"{DATA_DIR}tube_Log-Log_Baseline_noise_True_pmodel_h-8_part-0_loss-0.2000_cmodel_h-8_part-1_loss-0.068420260107-232739/test_results.pt")
+test_data_2 = torch.load(f"{DATA_DIR}tube_Linearized_QP_Control_noise_True_pmodel_h-8_part-0_loss-0.2000_cmodel_h-8_part-1_loss-0.068420260107-232814/test_results.pt")
 
 times = [x*1000 for x in test_data_2["step_times"]] # convert to ms
 print(f"Max Time: {np.max(times)}")
+print(f"Max loc: {np.argmax(times)}")
+print(len(test_data_2["step_times"]))
+print(f"Average Time: {np.mean(times)}")
 bins=10
 
 fig,ax = plt.subplots(1,1)
