@@ -12,12 +12,17 @@ colors = ["#66c2a5","#fc8d62","#8da0cb","#ffff99", "#386cb0", "#f0027f"]
 # used in simulation
 # cont_model_dir = "models/model_h-8_part-1_loss-0.0684/"
 # cont_data = torch.load(f"{cont_model_dir}/model_h-8_part-1_loss-0.0684.pt")
-PLANT = "model_h-8_part-1_loss-0.4868"
-CONT = "model_h-8_part-1_loss-0.0835"
+# PLANT = "model_h-8_part-1_loss-0.4868"
+# CONT = "model_h-8_part-1_loss-0.0835"
+# PLANT = "model_h-8_part-1_loss-0.4868"
+# CONT = "model_h-8_part-1_loss-0.0835"
 
+# CONT="model_h-8_part-0_loss-0.0533"
+CONT="model_h-8_part-1_loss-0.0684"
+PLANT="model_h-8_part-1_loss-0.3931"
 # opposites
-cont_model_dir = "models/model_h-8_part-0_loss-0.0533/"
-cont_data = torch.load(f"{cont_model_dir}/model_h-8_part-0_loss-0.0533.pt")
+# cont_model_dir = "models/model_h-8_part-0_loss-0.0533/"
+# cont_data = torch.load(f"{cont_model_dir}/model_h-8_part-0_loss-0.0533.pt")
 # plant_model_dir = "models/model_h-8_part-1_loss-0.3931/"
 # plant_data = torch.load(f"{plant_model_dir}/model_h-8_part-1_loss-0.3931.pt")
 

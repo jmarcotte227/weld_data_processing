@@ -38,7 +38,7 @@ ax.hist(
 # plot normal distribution over this
 mu = np.mean(errors)
 sigma = np.std(errors)
-x = np.linspace(-3,3, 100)
+x = np.linspace(-3,3, 1000)
 # plt.plot(x,stats.norm.pdf(x,mu,sigma))
 # plt.plot(x,stats.norm.pdf(x,mu,sigma))
 # plt.hist(laplace.rvs(loc=fitted_loc, scale=fitted_scale, size=len(errors)),density=True, bins=100)
@@ -57,7 +57,7 @@ ax.set_ylabel("Density")
 ax.set_xlabel("Predicition Error (mm)")
 ax.legend(["Laplace Distribution Fit","Prediction Error"])
 
-fig.suptitle("Noise", fontsize=20)
+# fig.suptitle("Noise", fontsize=20)
 fig.tight_layout()
 plt.savefig(f"output_plots/{save_name}", dpi=300)
 plt.show()

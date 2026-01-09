@@ -118,13 +118,13 @@ print(f"Test 2 N: {rms((test_data_2n['H'][-1][1:-1]-test_data_2n['H_d'][-1][1:-1
 ax.set_ylabel("Height Error (mm)")
 ax.set_xlabel("Segment Index")
 ax.legend(
-    ["Log-Log Baseline","LSTM MPC",
-     "Log-Log Baseline Noise","LSTM MPC Noise"],
+    ["Baseline Without Noise","LSTM MPC Without Noise",
+     "Baseline With Noise","LSTM MPC With Noise"],
     ncol=2,
     loc='lower center'
 )
 
-fig.suptitle("Final Layer Height Error", fontsize=20)
+# fig.suptitle("Final Layer Height Error", fontsize=20)
 fig.tight_layout()
 plt.savefig(f"output_plots/{save_name}", dpi=300)
 plt.show()

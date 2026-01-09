@@ -52,7 +52,7 @@ ylim = [
 ]
 
 # Log Log Plots
-fig, ax = plt.subplots(2,1, sharex=True)
+fig, ax = plt.subplots(4,1, sharex=True)
 ax[0].plot(
     test_data_1n["dh"][LAYER],
     color=colors[0],
@@ -75,6 +75,7 @@ ax[1].set_ylabel("Commanded Velocity (mm/s)")
 ax[1].set_xlabel("Segment Index")
 ax[0].legend(
     [f"$\\mathbf{{\\Delta H_{{{LAYER}}}}}$", f"$\\mathbf{{\\Delta H_{{d,{LAYER}}}}}$"],
+    ncol=2
 )
 ax[1].legend(
         [f"$\\mathbf{{v_{{T,{LAYER}}}}}$"],
@@ -82,42 +83,45 @@ ax[1].legend(
 ax[0].set_ylim(ylim)
 ax[1].set_ylim([3-0.1,17+0.1])
 
-fig.suptitle("Tracking Performance Log-Log", fontsize=20)
-fig.tight_layout()
-plt.savefig(f"output_plots/{save_name_ll}", dpi=300)
-plt.show()
+# fig.suptitle("Tracking Performance Log-Log", fontsize=20)
+# fig.tight_layout()
+# plt.savefig(f"output_plots/{save_name_ll}", dpi=300)
+# plt.show()
 
-fig, ax = plt.subplots(2,1, sharex=True)
-ax[0].plot(
+# fig, ax = plt.subplots(2,1, sharex=True)
+ax[2].plot(
     test_data_2n["dh"][LAYER],
     color=colors[1],
 )
-ax[0].plot(
+ax[2].plot(
     test_data_2n["dh_d"][LAYER],
     color=colors[1],
     linestyle='dotted'
 )
-ax[1].plot(
+ax[3].plot(
     test_data_2n["u_cmd_all"][LAYER],
     color=colors[1],
 )
 # $\\mathbf{v_{T,cmd}}$
 for a in ax: a.spines[['right', 'top']].set_visible(False)
 
-ax[0].set_ylabel("Deposition Height (mm)")
-ax[1].set_ylabel("Commanded Velocity (mm/s)")
+ax[2].set_ylabel("Deposition Height (mm)")
+ax[3].set_ylabel("Commanded Velocity (mm/s)")
 
-ax[1].set_xlabel("Segment Index")
-ax[0].legend(
+ax[3].set_xlabel("Segment Index")
+ax[2].legend(
     [f"$\\mathbf{{\\Delta H_{{{LAYER}}}}}$", f"$\\mathbf{{\\Delta H_{{d,{LAYER}}}}}$"],
+    ncol=2
 )
-ax[1].legend(
+ax[3].legend(
         [f"$\\mathbf{{v_{{T,{LAYER}}}}}$"],
 )
-ax[0].set_ylim(ylim)
-ax[1].set_ylim([3-0.1,17+0.1])
+ax[2].set_ylim(ylim)
+ax[3].set_ylim([3-0.1,17+0.1])
 
-fig.suptitle("Tracking Performance LSTM MPC", fontsize=20)
+fig.text(-0.04,0.25, '(a)', va='center', rotation='vertical')
+# fig.suptitle("Tracking Performance LSTM MPC", fontsize=20)
 fig.tight_layout()
-plt.savefig(f"output_plots/{save_name_lstm}", dpi=300)
+plt.savefig(f"output_plots/tracking_comb.png", dpi=300)
+# plt.savefig(f"output_plots/{save_name_lstm}", dpi=300)
 plt.show()

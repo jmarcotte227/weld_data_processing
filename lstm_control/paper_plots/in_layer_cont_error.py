@@ -63,8 +63,19 @@ ax.set_ylabel("RMSE (mm)")
 ax.set_xlabel("Layer Number")
 ax.spines[['right', 'top']].set_visible(False)
 ax.legend(["Log-Log Baseline","Log-Log Baseline Noise", "LSTM MPC", "LSTM MPC Noise"])
+ax.legend(
+    [
+        "Baseline Without Noise",
+        "Baseline With Noise",
+        "LSTM MPC Without Noise",
+        "LSTM MPC With Noise"
+    ],
+    ncol=2,
+    bbox_to_anchor=(0.5,1.02),
+    loc="lower center"
+)
 
-fig.suptitle("Reference Tracking Error", fontsize=20)
+# fig.suptitle("Reference Tracking Error", fontsize=20)
 fig.tight_layout()
 plt.savefig("output_plots/tracking.png", dpi=300)
 plt.show()
