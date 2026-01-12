@@ -3,6 +3,7 @@ import torch
 import matplotlib.pyplot as plt
 from matplotlib import rc
 import seaborn as sns
+from cycler import cycler
 
 def main():
     TUBE_D = 46 # mm
@@ -16,7 +17,17 @@ def main():
     rc('text', usetex=True)
 
     # colors = ["#7fc97f","#beaed4","#fdc086"]
-    colors = ["#66c2a5","#fc8d62","#8da0cb"]
+    my_colors = [
+        '#009e73',
+        '#0072b2',
+        '#f0e442',
+        '#e69f00',
+        '#d55e00',
+        '#cc79a7',
+    ]
+
+    # Set the global color cycle
+    plt.rc('axes', prop_cycle=cycler(color=my_colors))
 
     # dataset
     test_data_1 = torch.load(f"{DATA_DIR}tube_Log-Log_Baseline_noise_True_pmodel_h-8_part-0_loss-0.2000_cmodel_h-8_part-1_loss-0.068420260107-232739/test_results.pt")
@@ -24,8 +35,8 @@ def main():
 
     datasets = [test_data_1, test_data_2]
     
-    fig, ax = plt.subplots(1, 2, subplot_kw={"projection": "3d"})
     for idx, d_set in enumerate(datasets):
+        fig, ax = plt.subplots(1, 1, subplot_kw={"projection": "3d"})
         h = d_set["H"].numpy()
         # print(type(test_data["H_d"][0]))
         # print((test_data["H_d"][0]))
@@ -65,20 +76,35 @@ def main():
             dep_points[layer, :, 2] = z
 
             # if layer%10==0: ax[idx].plot(x, flat_coords[:,1], z)
-            ax[idx].plot(x, flat_coords[:,1], z)
+            ax.plot(x, flat_coords[:,1], z)
             # ax_flat.plot(h[layer])
 
-    for a in ax:
-        a.set_aspect("equal")
-        a.set_xlabel("X")
-        a.set_ylabel("Y")
-        a.set_zlabel("Z")
-        a.view_init(elev=10., azim=-30)
-    ax[0].set_title("Log-Log Baseline")
-    ax[1].set_title("LSTM MPC")
-    plt.tight_layout()
-    plt.savefig(f"output_plots/tube_vis.png", dpi=300)
-    plt.show()
+        ax.set_aspect("equal")
+        ax.set_xlabel("$X$")
+        ax.set_ylabel("$Y$")
+        ax.set_zlabel("$Z$")
+        ax.locator_params(axis='y', nbins=3)
+        ax.locator_params(axis='x', nbins=3)
+        ax.view_init(elev=10., azim=-30)
+    # ax[0].set_title("Log-Log Baseline")
+    # ax[1].set_title("LSTM MPC")
+        fig.set_size_inches(3.5, 5.5)
+    # fig.tight_layout()
+    # fig.subplots_adjust(left=-0.11)
+        fig.subplots_adjust(
+            left=-0.2,
+            bottom=0,
+            right=1.1,
+            top=1.1,
+            wspace=0,
+            hspace=0
+        )
+        if idx==0:
+            plt.savefig(f"output_plots/tube_vis_ll.png", dpi=300)
+        else:
+            plt.savefig(f"output_plots/tube_vis_lstm.png", dpi=300)
+        plt.show()
+        
 
 
 def circ_map(num_segs, tube_r):

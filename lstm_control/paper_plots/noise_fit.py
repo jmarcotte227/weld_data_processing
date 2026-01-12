@@ -7,12 +7,15 @@ import seaborn as sns
 
 save_name = "noise_fit.png"
 
-rc('font',**{'family':'sans-serif','sans-serif':['Helvetica']})
-# rc('font',**{'family':'serif','serif':['Times']})
 rc('text', usetex=True)
+rc('font',**{'family':'sans-serif','sans-serif':['Latin Modern Sans']})
 
 # colors = ["#7fc97f","#beaed4","#fdc086"]
-colors = ["#66c2a5","#fc8d62","#8da0cb","#ffff99", "#386cb0", "#f0027f"]
+# colors = ["#66c2a5","#fc8d62","#8da0cb","#ffff99", "#386cb0", "#f0027f"]
+colors = [
+    '#56b4e9',
+    '#d55e00',
+]
 
 DATA_DIR = "data/"
 # load baseline test set
@@ -32,7 +35,7 @@ ax.hist(
     errors,
     bins=100,
     density=True,
-    color=colors[4]
+    color=colors[0]
 )
 
 # plot normal distribution over this
@@ -49,7 +52,7 @@ ax.plot(
         loc=loc,
         scale=scale,
     ),
-    color=colors[5]
+    color=colors[1]
 )
 # labels
 ax.spines[['right', 'top']].set_visible(False)
@@ -57,6 +60,7 @@ ax.set_ylabel("Density")
 ax.set_xlabel("Predicition Error (mm)")
 ax.legend(["Laplace Distribution Fit","Prediction Error"])
 
+fig.set_size_inches(6.4, 3)
 # fig.suptitle("Noise", fontsize=20)
 fig.tight_layout()
 plt.savefig(f"output_plots/{save_name}", dpi=300)

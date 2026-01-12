@@ -1,14 +1,42 @@
 import numpy as np
 import torch
 import matplotlib.pyplot as plt
-from matplotlib import rc
+from matplotlib import rc, use
 
-rc('font',**{'family':'sans-serif','sans-serif':['Helvetica']})
-# rc('font',**{'family':'serif','serif':['Times']})
+import matplotlib.pyplot as plt
+
+# 1. Enable LaTeX rendering
+# use("pgf") # Switches the backend to PGF
+# pgf_with_custom_fonts = {
+#     "pgf.texsystem": "xelatex", # Tell it to use xelatex instead of pdflatex
+#     "font.family": "sans-serif",
+#     "text.usetex": True,        # Enable LaTeX
+#     "pgf.rcfonts": False,       # Don't try to set fonts from matplotlib rc
+#     "pgf.preamble": "\n".join([
+#          r"\usepackage{fontspec}",
+#          r"\setsansfont{Geist-Regular}",
+#     ])
+# }
+# plt.rcParams.update({ "text.usetex": True,
+#     "font.family": "sans-serif",
+#     "font.sans-serif": ["Geist"],
+#     "pgf.texsystem": "xelatex",
+#     "pgf.rcfonts": False,
+# })
+
+# 2. Inject LaTeX preamble to load Geist
+# We use 'fontspec' which requires the XeLaTeX or LuaLaTeX engine
+
 rc('text', usetex=True)
+rc('font',**{'family':'sans-serif','sans-serif':['Latin Modern Sans']})
+# rc('font',**{'family':'serif','serif':['Times']})
 
 # colors = ["#7fc97f","#beaed4","#fdc086"]
-colors = ["#66c2a5","#fc8d62","#8da0cb","#ffff99", "#386cb0", "#f0027f"]
+# colors = ["#66c2a5","#fc8d62","#8da0cb","#ffff99", "#386cb0", "#f0027f"]
+colors = [
+    '#56b4e9',
+    '#d55e00',
+]
 # used in simulation
 # cont_model_dir = "models/model_h-8_part-1_loss-0.0684/"
 # cont_data = torch.load(f"{cont_model_dir}/model_h-8_part-1_loss-0.0684.pt")
@@ -46,6 +74,7 @@ cont_valid = np.loadtxt(f"{cont_model_dir}valid_loss.csv", delimiter=',')
 # print(cont_train[min_e])
 # print(cont_valid[min_e])
 # print(min(cont_valid))
+print(plant_data.keys())
 
 print("---Plant---")
 print(f"LR: {plant_data['lr']}")
@@ -70,10 +99,10 @@ print(f"Train: ", cont_train[min_e])
 print("Epoch: ", min_e)
 
 fig,ax = plt.subplots(2,1)
-ax[1].plot(cont_train, color=colors[5])
-ax[1].plot(cont_valid, color=colors[4])
-ax[0].plot(plant_train, color=colors[5])
-ax[0].plot(plant_valid, color=colors[4])
+ax[1].plot(cont_train, color=colors[0])
+ax[1].plot(cont_valid, color=colors[1])
+ax[0].plot(plant_train, color=colors[0])
+ax[0].plot(plant_valid, color=colors[1])
 ax[0].legend(["Training", "Validation"])
 ax[1].legend(["Training", "Validation"])
 ax[0].set_title("Conventional LSTM Loss")
@@ -84,7 +113,8 @@ for a in ax:
     a.set_ylabel("Mean-Squared Error Loss")
     a.set_xlabel("Epoch")
     a.set_ylim([0,1.2])
-    
+    a.grid()
+
 fig.tight_layout()
 plt.savefig("output_plots/loss.png", dpi=300)
 

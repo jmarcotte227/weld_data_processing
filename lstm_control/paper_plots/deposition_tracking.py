@@ -4,13 +4,14 @@ import matplotlib.pyplot as plt
 from matplotlib import rc
 import seaborn as sns
 
-rc('font',**{'family':'sans-serif','sans-serif':['Helvetica']})
-# rc('font',**{'family':'serif','serif':['Times']})
+
 rc('text', usetex=True)
-
+rc('font',**{'family':'sans-serif','sans-serif':['Latin Modern Sans']})
 # colors = ["#7fc97f","#beaed4","#fdc086"]
-colors = ["#66c2a5","#fc8d62","#8da0cb"]
-
+colors = [
+    '#e69f00',
+    '#009e73',
+]
 def rms(x):
     return np.sqrt(np.sum(np.square(x))/len(x))
 
@@ -56,32 +57,29 @@ fig, ax = plt.subplots(4,1, sharex=True)
 ax[0].plot(
     test_data_1n["dh"][LAYER],
     color=colors[0],
+    label=f"Baseline Control $\\mathbf{{\\Delta H_{{{LAYER}}}}}$"
 )
 ax[0].plot(
     test_data_1n["dh_d"][LAYER],
     color=colors[0],
-    linestyle='dotted'
+    linestyle='dotted',
+    label=f"Baseline Control $\\mathbf{{\\Delta H_{{d,{LAYER}}}}}$"
 )
 ax[1].plot(
     test_data_1n["u_cmd_all"][LAYER],
     color=colors[0],
+    linestyle="dashdot",
+    label=f"Baseline Control $\\mathbf{{v_{{T,{LAYER}}}}}$"
 )
 # $\\mathbf{v_{T,cmd}}$
 for a in ax: a.spines[['right', 'top']].set_visible(False)
 
-ax[0].set_ylabel("Deposition Height (mm)")
-ax[1].set_ylabel("Commanded Velocity (mm/s)")
+ax[0].set_ylabel("$\\Delta H$ (mm)")
+ax[1].set_ylabel("$v_T$ (mm/s)")
 
 ax[1].set_xlabel("Segment Index")
-ax[0].legend(
-    [f"$\\mathbf{{\\Delta H_{{{LAYER}}}}}$", f"$\\mathbf{{\\Delta H_{{d,{LAYER}}}}}$"],
-    ncol=2
-)
-ax[1].legend(
-        [f"$\\mathbf{{v_{{T,{LAYER}}}}}$"],
-)
 ax[0].set_ylim(ylim)
-ax[1].set_ylim([3-0.1,17+0.1])
+ax[1].set_ylim([3-0.2,17+0.8])
 
 # fig.suptitle("Tracking Performance Log-Log", fontsize=20)
 # fig.tight_layout()
@@ -92,34 +90,41 @@ ax[1].set_ylim([3-0.1,17+0.1])
 ax[2].plot(
     test_data_2n["dh"][LAYER],
     color=colors[1],
+    label=f"LSTM Control $\\mathbf{{\\Delta H_{{{LAYER}}}}}$"
 )
 ax[2].plot(
     test_data_2n["dh_d"][LAYER],
     color=colors[1],
-    linestyle='dotted'
+    linestyle='dotted',
+    label=f"LSTM Control $\\mathbf{{\\Delta H_{{d,{LAYER}}}}}$"
 )
 ax[3].plot(
     test_data_2n["u_cmd_all"][LAYER],
     color=colors[1],
+    linestyle="dashdot",
+    label=f"LSTM Control $\\mathbf{{v_{{T,{LAYER}}}}}$"
 )
 # $\\mathbf{v_{T,cmd}}$
 for a in ax: a.spines[['right', 'top']].set_visible(False)
 
-ax[2].set_ylabel("Deposition Height (mm)")
-ax[3].set_ylabel("Commanded Velocity (mm/s)")
+
+ax[2].set_ylabel("$\\Delta H$ (mm)")
+ax[3].set_ylabel("$v_T$ (mm/s)")
 
 ax[3].set_xlabel("Segment Index")
-ax[2].legend(
-    [f"$\\mathbf{{\\Delta H_{{{LAYER}}}}}$", f"$\\mathbf{{\\Delta H_{{d,{LAYER}}}}}$"],
-    ncol=2
-)
-ax[3].legend(
-        [f"$\\mathbf{{v_{{T,{LAYER}}}}}$"],
-)
 ax[2].set_ylim(ylim)
-ax[3].set_ylim([3-0.1,17+0.1])
+ax[3].set_ylim([3-0.2,17+0.8])
 
-fig.text(-0.04,0.25, '(a)', va='center', rotation='vertical')
+lines_labels = [a.get_legend_handles_labels() for a in fig.axes]
+lines, labels = [sum(lol, []) for lol in zip(*lines_labels)]
+ax[0].legend(
+    lines,
+    labels,
+    ncol=2,
+    bbox_to_anchor=(0.5,1.00),
+    loc='lower center'
+)
+# fig.text(-0.04,0.25, '(a)', va='center', rotation='vertical')
 # fig.suptitle("Tracking Performance LSTM MPC", fontsize=20)
 fig.tight_layout()
 plt.savefig(f"output_plots/tracking_comb.png", dpi=300)

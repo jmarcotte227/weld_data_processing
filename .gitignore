@@ -1,3 +1,7 @@
 *.mp4
 lstm_control/paper_plots/data/20260107-043810_gain_tests
 lstm_control/paper_plots/data/20260107-105655_gain_tests
+lstm_control/paper_plots/output_plots/exp_tube_vis.tiff
+lstm_control/paper_plots/output_plots/gain_test.tiff
+lstm_control/paper_plots/output_plots/model_verification.tiff
+lstm_control/paper_plots/Geist-Regular.otf

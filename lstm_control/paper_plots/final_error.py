@@ -4,12 +4,15 @@ import matplotlib.pyplot as plt
 from matplotlib import rc
 import seaborn as sns
 
-rc('font',**{'family':'sans-serif','sans-serif':['Helvetica']})
-# rc('font',**{'family':'serif','serif':['Times']})
 rc('text', usetex=True)
+rc('font',**{'family':'sans-serif','sans-serif':['Latin Modern Sans']})
 
 # colors = ["#7fc97f","#beaed4","#fdc086"]
-colors = ["#66c2a5","#fc8d62","#8da0cb"]
+# colors = ["#66c2a5","#fc8d62","#8da0cb"]
+colors = [
+    '#e69f00',
+    '#009e73',
+]
 
 def rms(x):
     return np.sqrt(np.sum(np.square(x))/len(x))
@@ -69,20 +72,20 @@ fig, ax = plt.subplots(1,1, sharex=True)
 ax.plot(
     test_data_1["H"][-1]-test_data_1["H_d"][-1],
     color=colors[0],
+    linestyle='dashed'
 )
 ax.plot(
     test_data_2["H"][-1]-test_data_2["H_d"][-1],
     color=colors[1],
+    linestyle='dashed'
 )
 ax.plot(
     test_data_1n["H"][-1]-test_data_1n["H_d"][-1],
     color=colors[0],
-    linestyle='dashed'
 )
 ax.plot(
     test_data_2n["H"][-1]-test_data_2n["H_d"][-1],
     color=colors[1],
-    linestyle='dashed'
 )
 
 ax.spines[['right', 'top']].set_visible(False)
@@ -117,14 +120,18 @@ print(f"Test 2 N: {rms((test_data_2n['H'][-1][1:-1]-test_data_2n['H_d'][-1][1:-1
 # plt.show()
 ax.set_ylabel("Height Error (mm)")
 ax.set_xlabel("Segment Index")
+ax.grid()
+ax.set_ylim([-1,4])
 ax.legend(
-    ["Baseline Without Noise","LSTM MPC Without Noise",
-     "Baseline With Noise","LSTM MPC With Noise"],
+    ["Baseline Control Without Noise","LSTM Control Without Noise",
+     "Baseline Control With Noise","LSTM Control With Noise"],
     ncol=2,
+    bbox_to_anchor=(0.5,1.02),
     loc='lower center'
 )
 
 # fig.suptitle("Final Layer Height Error", fontsize=20)
+fig.set_size_inches(6.4, 3)
 fig.tight_layout()
 plt.savefig(f"output_plots/{save_name}", dpi=300)
 plt.show()

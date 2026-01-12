@@ -6,9 +6,8 @@ from matplotlib.colors import LogNorm
 
 from matplotlib import rc
 
-rc('font',**{'family':'sans-serif','sans-serif':['Helvetica']})
-# rc('font',**{'family':'serif','serif':['Times']})
 rc('text', usetex=True)
+rc('font',**{'family':'sans-serif','sans-serif':['Latin Modern Sans']})
 
 def rms(x):
     return np.sqrt(np.sum(np.square(x))/len(x))
@@ -49,6 +48,7 @@ def meas_ss(signal, threshold, window_size=5):
 
 if __name__=="__main__":
 
+
     V_MIN = 0.33
     V_MAX = 1.17
     # test directory
@@ -70,9 +70,10 @@ if __name__=="__main__":
     a_vals = test_data["alpha"]
     dh_vals = test_data["layer_dh"]
 
-    fig_all, ax_all = plt.subplots(3,2, sharex=True, sharey=True)
+    fig_all, ax_all = plt.subplots(2,3, sharex=True, sharey=True)
+    fig_all.set_size_inches(6.4, 3.5)
     cbar_ax = fig_all.add_axes([.86, .1, .03, .8])
-    ax_idx = [(0,0), (0,1), (1,0), (1,1), (2,0), (2,1)]
+    ax_idx = [(0,0), (0,1), (0,2), (1,0), (1,1), (1,2)]
     for dh_idx in range(error_results.shape[2]-1):
         # we want to aggregate the rms errors of each layer in all trials
         # for different values of alpha and beta
@@ -117,8 +118,8 @@ if __name__=="__main__":
                 ba_results_mean[b_idx, a_idx]=np.mean(rms_list)
                 ba_results_std[b_idx, a_idx]=np.std(rms_list)
 
-        a_vals_str = ["{:.2f}".format(x) for x in a_vals]
-        b_vals_str = ["{:.2f}".format(x) for x in b_vals]
+        a_vals_str = ["${:.2f}$".format(x) for x in a_vals]
+        b_vals_str = ["${:.2f}$".format(x) for x in b_vals]
         
         print(np.min(ba_results_mean))
         print(np.max(ba_results_mean))
@@ -132,6 +133,7 @@ if __name__=="__main__":
             cbar_ax=None if dh_idx!=1 else cbar_ax,
             cbar = dh_idx==1,
             cbar_kws=None if dh_idx!=1 else {'label': 'RMSE (mm)'},
+            cmap='viridis'
             # norm=LogNorm()
         )
 
@@ -141,11 +143,12 @@ if __name__=="__main__":
         ax_all[ax_idx[dh_idx]].set_xlabel(r"$\alpha$")
         ax_all[ax_idx[dh_idx]].set_ylabel(r"$\beta$")
         ax_all[ax_idx[dh_idx]].set_aspect("equal")
-    fig_all.suptitle("Mean RMSE - Gain Analysis")
+    # fig_all.suptitle("Mean RMSE - Gain Analysis")
     fig_all.tight_layout(rect=[0, 0, .85, 1])
     # fig_all.tight_layout()
 
     plt.savefig("output_plots/gain_test.png", dpi=300)
+    plt.savefig("output_plots/gain_test.tiff", dpi=300)
     plt.show()
         # plt.plot(a_vals, ba_results_mean[0, :])
         # plt.show()

@@ -7,12 +7,15 @@ import seaborn as sns
 def rms(x):
     return np.sqrt(np.sum(np.square(x))/len(x))
 
-rc('font',**{'family':'sans-serif','sans-serif':['Helvetica']})
-# rc('font',**{'family':'serif','serif':['Times']})
 rc('text', usetex=True)
+rc('font',**{'family':'sans-serif','sans-serif':['Latin Modern Sans']})
 
 # colors = ["#7fc97f","#beaed4","#fdc086"]
-colors = ["#66c2a5","#fc8d62","#8da0cb"]
+# colors = ["#66c2a5","#fc8d62","#8da0cb"]
+colors = [
+    '#e69f00',
+    '#009e73',
+]
 
 DATA_DIR = "data/"
 # load baseline test set
@@ -37,7 +40,7 @@ test_data_2n = torch.load(f"{DATA_DIR}Linearized_QP_Control_noise_True_pmodel_h-
 datasets = [test_data_1, test_data_1n, test_data_2, test_data_2n]
 # color_choice = [colors[0], colors[0], colors[1], colors[1]]
 # markers=['o', 'o', 'o', 'o']
-face_colors = [colors[0], 'none', colors[1], 'none']
+face_colors = ['none', colors[0], 'none', colors[1]]
 edge_colors = [colors[0], colors[0], colors[1], colors[1]]
 
 fig, ax = plt.subplots(1,1)
@@ -62,13 +65,13 @@ for idx, d_set in enumerate(datasets):
 ax.set_ylabel("RMSE (mm)")
 ax.set_xlabel("Layer Number")
 ax.spines[['right', 'top']].set_visible(False)
-ax.legend(["Log-Log Baseline","Log-Log Baseline Noise", "LSTM MPC", "LSTM MPC Noise"])
+# ax.legend(["Log-Log Baseline","Log-Log Baseline Noise", "LSTM MPC", "LSTM MPC Noise"])
 ax.legend(
     [
-        "Baseline Without Noise",
-        "Baseline With Noise",
-        "LSTM MPC Without Noise",
-        "LSTM MPC With Noise"
+        "Baseline Control Without Noise",
+        "Baseline Control With Noise",
+        "LSTM Control Without Noise",
+        "LSTM Control With Noise"
     ],
     ncol=2,
     bbox_to_anchor=(0.5,1.02),
