@@ -10,12 +10,15 @@ sys.path.append("../../../Welding_Motoman/toolbox/")
 from angled_layers import avg_by_line
 
 def main():
-    TRIM = 1
+    TRIM = 0
+    
     REC_DIR = "../../../recorded_data/"
     # DATASET = "2025_11_19_11_50_06_AL_WLJ_dataset0"
     # DATASET = "2025_11_19_12_20_00_AL_WLJ_dataset1"
     # DATASET = "2025_11_19_12_50_06_AL_WLJ_dataset2"
-    DATASET = "2025_11_19_13_19_53_AL_WLJ_dataset3"
+    # DATASET = "2025_11_19_13_19_53_AL_WLJ_dataset3"
+    # DATASET = "2026_01_12_10_21_38_wall_lstm_control"
+    DATASET = "2026_01_12_11_48_35_wall_lstm_baseline_control"
 
     # load robot config
     CONFIG_DIR = f'{REC_DIR}{DATASET}/config/'
@@ -54,7 +57,7 @@ def main():
 
     dhs = []
     hs = []
-    nan_list=np.empty(50-2*TRIM)
+    nan_list=np.empty(46)
     nan_list[:]=np.nan
     dhs.append(nan_list)
     hs.append(nan_list)
@@ -64,23 +67,24 @@ def main():
         curr_flame = flame[layer]
         # print("C: ", curr_flame)
 
-        prev_flame_avg = avg_by_line(prev_flame[:,0], prev_flame[:,1:], np.linspace(49,0,50)) 
-        curr_flame_avg = avg_by_line(curr_flame[:,0], curr_flame[:,1:], np.linspace(0,49,50))
+        prev_flame_avg = avg_by_line(prev_flame[:,0], prev_flame[:,1:], np.linspace(45,0,46)) 
+        curr_flame_avg = avg_by_line(curr_flame[:,0], curr_flame[:,1:], np.linspace(0,45,46))
 
-        if layer%2:
-            ax.plot(curr_flame_avg[:,2])
+        # if layer%2:
+        #     ax.plot(curr_flame_avg[:,2])
             # hs.append(curr_flame_avg[:,2])
-        else:
-            ax.plot(np.flip(curr_flame_avg[:,2]))
+        # else:
+        #     ax.plot(np.flip(curr_flame_avg[:,2]))
             # hs.append(np.flip(curr_flame_avg[:,2]))
-        dhs.append(curr_flame_avg[TRIM:-TRIM,2]-prev_flame_avg[TRIM:-TRIM,2])
-        hs.append(curr_flame_avg[TRIM:-TRIM,2])
+        ax.plot(curr_flame_avg[:,0], curr_flame_avg[:,2])
+        dhs.append(curr_flame_avg[:,2]-prev_flame_avg[:,2])
+        hs.append(curr_flame_avg[:,2])
     ax.set_xlabel("Segment Index")
     ax.set_ylabel("H")
     dhs=np.array(dhs)
     plt.show()
-    # np.savetxt(f"calc_dh/{DATASET}_dh.csv", dhs, delimiter=',')
-    # np.savetxt(f"calc_h/{DATASET}_h.csv", hs, delimiter=',')
+    np.savetxt(f"calc_dh/{DATASET}_dh.csv", dhs, delimiter=',')
+    np.savetxt(f"calc_h/{DATASET}_h.csv", hs, delimiter=',')
 
     if True:
         fig,ax = plt.subplots(1,1)

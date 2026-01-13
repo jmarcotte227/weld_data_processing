@@ -44,6 +44,8 @@ def main():
         # min max dh
         dh_min = np.min(d_set["H_d"][0].numpy(), axis=0)
         dh_max = np.max(d_set["H_d"][0].numpy(), axis=0)
+        print(dh_max)
+        print(dh_min)
 
         # angle and point of rotation
         layer_ang = np.arctan((dh_max-dh_min)/TUBE_D)
@@ -101,8 +103,10 @@ def main():
         )
         if idx==0:
             plt.savefig(f"output_plots/tube_vis_ll.png", dpi=300)
+            plt.savefig(f"output_plots/tube_vis_ll.tiff", dpi=300)
         else:
             plt.savefig(f"output_plots/tube_vis_lstm.png", dpi=300)
+            plt.savefig(f"output_plots/tube_vis_lstm.tiff", dpi=300)
         plt.show()
         
 

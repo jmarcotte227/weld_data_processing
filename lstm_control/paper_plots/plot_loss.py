@@ -117,5 +117,6 @@ for a in ax:
 
 fig.tight_layout()
 plt.savefig("output_plots/loss.png", dpi=300)
+plt.savefig("output_plots/loss.tiff", dpi=300)
 
 plt.show()

@@ -27,7 +27,7 @@ test_data_1 = torch.load(f"{DATA_DIR}Log-Log_Baseline_noise_False_pmodel_h-8_par
 # Single Layer LSTM
 test_data_2 = torch.load(f"{DATA_DIR}Linearized_QP_Control_noise_False_pmodel_h-8_part-0_loss-0.2000_cmodel_h-8_part-1_loss-0.068420260107-132840/test_results.pt")
 
-save_name = 'final_error.png'
+save_name = 'final_error'
 ####################
 ##### WITH NOISE #####
 # baseline
@@ -98,6 +98,12 @@ print("---Trimmed---")
 print(f"Test 1: {rms((test_data_1['H'][-1][1:-1]-test_data_1['H_d'][-1][1:-1]).numpy())}")
 print(f"Test 2: {rms((test_data_2['H'][-1][1:-1]-test_data_2['H_d'][-1][1:-1]).numpy())}")
 
+print("Noise")
+print("Severly Trimmed")
+print(len(test_data_1n['H'][-1][6:-6]))
+print(f"Test 1 N: {rms((test_data_1n['H'][-1][6:-6]-test_data_1n['H_d'][-1][6:-6]).numpy())}")
+print(f"Test 1 N: {rms((test_data_1['H'][-1][6:-6]-test_data_1['H_d'][-1][6:-6]).numpy())}")
+
 print("---Full---")
 print(f"Test 1 N: {rms((test_data_1n['H'][-1]-test_data_1n['H_d'][-1]).numpy())}")
 print(f"Test 2 N: {rms((test_data_2n['H'][-1]-test_data_2n['H_d'][-1]).numpy())}")
@@ -121,7 +127,7 @@ print(f"Test 2 N: {rms((test_data_2n['H'][-1][1:-1]-test_data_2n['H_d'][-1][1:-1
 ax.set_ylabel("Height Error (mm)")
 ax.set_xlabel("Segment Index")
 ax.grid()
-ax.set_ylim([-1,4])
+# ax.set_ylim([-1,4])
 ax.legend(
     ["Baseline Control Without Noise","LSTM Control Without Noise",
      "Baseline Control With Noise","LSTM Control With Noise"],
@@ -133,5 +139,6 @@ ax.legend(
 # fig.suptitle("Final Layer Height Error", fontsize=20)
 fig.set_size_inches(6.4, 3)
 fig.tight_layout()
-plt.savefig(f"output_plots/{save_name}", dpi=300)
+plt.savefig(f"output_plots/{save_name}.png", dpi=300)
+plt.savefig(f"output_plots/{save_name}.tiff", dpi=300)
 plt.show()

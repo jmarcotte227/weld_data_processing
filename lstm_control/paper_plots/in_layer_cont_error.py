@@ -60,6 +60,7 @@ for idx, d_set in enumerate(datasets):
         edgecolors=edge_colors[idx],
         facecolors=face_colors[idx],
     )
+    print("Tracking error 90: ", np.mean(errors[10:]))
 
 # labels
 ax.set_ylabel("RMSE (mm)")
@@ -79,8 +80,10 @@ ax.legend(
 )
 
 # fig.suptitle("Reference Tracking Error", fontsize=20)
+fig.set_size_inches(6.4, 3)
 fig.tight_layout()
 plt.savefig("output_plots/tracking.png", dpi=300)
+plt.savefig("output_plots/tracking.tiff", dpi=300)
 plt.show()
 
 fig,ax=plt.subplots()

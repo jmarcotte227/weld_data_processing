@@ -20,14 +20,15 @@ def rms_error(data):
     return np.sqrt(num/n)
 
 dataset = "wall/"
-sliced_alg = "1_5mm_slice/"
+sliced_alg = "1_55mm_slice/"
 data_dir = "../../../Welding_Motoman/data/" + dataset + sliced_alg
 
-HEIGHT_OFFSET = -7.92870911432761 
+HEIGHT_OFFSET = -6.318382754974749 
 
 CONFIG_DIR = "../../../Welding_Motoman/config/"
+REC_DIR = "../../../recorded_data/2026_01_12_10_21_38_wall_lstm_control/"
 # REC_DIR = "../../../recorded_data/wall_lstm_baseline_control_2025_11_05_12_38_13/"
-REC_DIR = "../../../recorded_data/wall_lstm_control_2025_11_05_13_17_59/"
+# REC_DIR = "../../../recorded_data/wall_lstm_control_2025_11_05_13_17_59/"
 # REC_DIR = "../../../recorded_data/wall_lstm_control_2025_10_31_14_30_40/"
 # REC_DIR = "../../../recorded_data/wall_lstm_control_2025_10_31_13_34_50/"
 

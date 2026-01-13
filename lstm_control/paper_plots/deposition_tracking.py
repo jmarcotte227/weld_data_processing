@@ -128,5 +128,6 @@ ax[0].legend(
 # fig.suptitle("Tracking Performance LSTM MPC", fontsize=20)
 fig.tight_layout()
 plt.savefig(f"output_plots/tracking_comb.png", dpi=300)
+plt.savefig(f"output_plots/tracking_comb.tiff", dpi=300)
 # plt.savefig(f"output_plots/{save_name_lstm}", dpi=300)
 plt.show()

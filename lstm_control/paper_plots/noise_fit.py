@@ -5,7 +5,7 @@ from matplotlib import rc
 from scipy.stats import laplace
 import seaborn as sns
 
-save_name = "noise_fit.png"
+save_name = "noise_fit"
 
 rc('text', usetex=True)
 rc('font',**{'family':'sans-serif','sans-serif':['Latin Modern Sans']})
@@ -60,8 +60,9 @@ ax.set_ylabel("Density")
 ax.set_xlabel("Predicition Error (mm)")
 ax.legend(["Laplace Distribution Fit","Prediction Error"])
 
-fig.set_size_inches(6.4, 3)
+fig.set_size_inches(6.4, 2)
 # fig.suptitle("Noise", fontsize=20)
 fig.tight_layout()
-plt.savefig(f"output_plots/{save_name}", dpi=300)
+plt.savefig(f"output_plots/{save_name}.png", dpi=300)
+plt.savefig(f"output_plots/{save_name}.tiff", dpi=300)
 plt.show()

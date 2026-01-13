@@ -19,7 +19,7 @@ errors_1 = np.loadtxt(
 )
 
 errors_2 = np.loadtxt(
-    "process_error/wall_lstm_control_2025_11_05_13_17_59_layer_err.csv",
+    "process_error/2026_01_12_10_21_38_wall_lstm_control_layer_err.csv",
     # "process_error/wall_lstm_control_2025_10_31_13_34_50_layer_err.csv",
     delimiter=','
 )
@@ -40,7 +40,7 @@ rms_errors = []
 for layer in range(errors_2.shape[0]):
     # rms_errors.append(rms_error(errors_2[layer,2:-2]))
     rms_errors.append(rms_error(errors_2[layer,:]))
-print(f"RMS 1: {rms_errors[-1]}")
+print(f"RMS 2: {rms_errors[-1]}")
 ax.plot(rms_errors)
 
 ax.legend([
