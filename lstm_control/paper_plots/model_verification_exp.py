@@ -21,9 +21,8 @@ colors = [
     '#009e73',
 ]
 
-dataset = torch.load("data/041015model_h-8_part-0_loss-0.2000model_h-8_part-1_loss-0.0684.pt")
 dataset_b = torch.load("data/2026_01_12_11_48_35_wall_lstm_baseline_control.pt")
-dataset_l = torch.load("data/2026_01_12_10_21_38_wall_lstm_control.pt")
+dataset_l = torch.load("data/2026_01_12_10_21_38_wall_lstm_control_a.pt")
 
 # bulk prediction error metrics
 errors_lc = []

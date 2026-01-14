@@ -19,7 +19,7 @@ colors = [
     '#009e73',
 ]
 
-dataset = torch.load("data/041015model_h-8_part-0_loss-0.2000model_h-8_part-1_loss-0.0684.pt")
+dataset = torch.load("data/041015model_h-8_part-1_loss-0.3931model_h-8_part-1_loss-0.0684.pt")
 
 idxs = dataset.keys()
 
@@ -37,7 +37,7 @@ ax[-1].set_xlabel("Segment Index")
 for i, a in enumerate(ax):
     a.spines[['right', 'top']].set_visible(False)
     a.set_ylabel("$\\Delta H$ (mm)")
-    a.set_ylim([0,3.1])
+    a.set_ylim([-0.6,3.1])
 ax[0].legend(
     [
         "Log-Log Model",
