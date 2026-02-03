@@ -5,7 +5,9 @@ from motoman_def import robot_obj, positioner_obj
 if __name__=='__main__':
     # DATASET = "2026_01_23_10_46_41_WLJ_XX_motion_test_normal_priority_no_load"
     # DATASET = "2026_01_23_10_40_04_WLJ_XX_motion_test_high_priority_no_load"
-    DATASET = "2026_01_28_14_38_23_WLJ_XX_new_data_test"
+    # DATASET = "2026_02_02_16_55_08_WLJ_XX_new_data_test_old_lam_cur"
+    DATASET = "2026_02_02_16_51_44_WLJ_XX_new_data_test_new_lam_cur"
+    # DATASET = "2026_01_28_14_38_23_WLJ_XX_new_data_test"
     # DATASET = "2026_01_23_10_26_27_WLJ_XX_motion_test_normal_priority_cpu_stressed"
     # DATASET = "2026_01_23_10_33_25_WLJ_XX_motion_test_high_priority_cpu_stressed"
     # DATASET = "2026_01_23_11_31_28_WLJ_XX_motion_test_normal_priority_linux"
@@ -45,16 +47,16 @@ if __name__=='__main__':
     plot_min = 0
     plot_max = -1
 
-    fig, ax = plt.subplots(3,1, sharex=True)
-    # ax[0].plot(js_exe[:,0]-js_exe[0,0], exe_pos[:,0])
-    # ax[0].plot(js_cmd[:,0]-js_exe[0,0], cmd_pos[:,0])
-    # ax[0].plot(js_cmd[[0,-1],0]-js_exe[0,0], cmd_pos[[0,-1], 0], 'r--', alpha=0.5)
-    ax[0].plot(js_exe[:,0]-js_exe[0,0], js_exe[:,4])
-    ax[0].plot(js_cmd[:,0]-js_exe[0,0], js_cmd[:,3])
-    ax[0].plot(js_cmd[[0,-1],0]-js_exe[0,0], js_cmd[[0,-1], 3], 'r--', alpha=0.5)
+    fig, ax = plt.subplots(3,1, sharex=False)
+    ax[0].plot(js_exe[:,0]-js_exe[0,0], exe_pos[:,0])
+    ax[0].plot(js_cmd[:,0]-js_exe[0,0], cmd_pos[:,0])
+    ax[0].plot(js_cmd[[0,-1],0]-js_exe[0,0], cmd_pos[[0,-1], 0], 'r--', alpha=0.5)
+    # ax[0].plot(js_exe[:,0]-js_exe[0,0], js_exe[:,4])
+    # ax[0].plot(js_cmd[:,0]-js_exe[0,0], js_cmd[:,3])
+    # ax[0].plot(js_cmd[[0,-1],0]-js_exe[0,0], js_cmd[[0,-1], 3], 'r--', alpha=0.5)
     ax[1].plot(js_exe[1:,0]-js_exe[0,0],exe_vels)
     ax[1].plot(js_cmd[1:,0]-js_exe[0,0],cmd_vels)
-    ax[1].plot(js_cmd[[1,-1],0]-js_exe[0,0], [7,7], 'r--', alpha=0.5)
+    ax[1].plot(js_cmd[[1,-1],0]-js_exe[0,0], [10,10], 'r--', alpha=0.5)
     ax[2].plot(js_exe[1:,0]-js_exe[0,0], exe_dts)
     ax[2].plot(js_cmd[1:,0]-js_exe[0,0], cmd_dts)
     ax[2].plot(js_cmd[[1,-1],0]-js_exe[0,0], [0.008,0.008], 'r--', alpha=0.5)
