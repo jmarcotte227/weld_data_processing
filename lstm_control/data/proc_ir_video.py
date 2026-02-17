@@ -15,9 +15,13 @@ def main():
     # DATASET = "2025_11_19_12_20_00_AL_WLJ_dataset1"
     # DATASET = "2025_11_19_12_50_06_AL_WLJ_dataset2"
     # DATASET = "2025_11_19_13_19_53_AL_WLJ_dataset3"
-    DATASET = "2026_01_12_10_21_38_wall_lstm_control"
-    DATASET = "2026_01_12_11_48_35_wall_lstm_baseline_control"
-    HEIGHT_OFFSET = -6.318382754974749
+    # DATASET = "2026_01_12_10_21_38_wall_lstm_control"
+    # DATASET = "2026_01_12_11_48_35_wall_lstm_baseline_control"
+    # HEIGHT_OFFSET = -6.318382754974749
+
+
+    DATASET = "2026_02_12_16_06_04_tube_lstm_control"
+    HEIGHT_OFFSET = -8.058484994710991
 
     # load robot config
     CONFIG_DIR = f'{REC_DIR}{DATASET}/config/'

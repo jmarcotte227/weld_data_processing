@@ -4,7 +4,8 @@ import glob
 def main():
     # TRIM = 1
     REC_DIR = "../../../recorded_data/"
-    DATASET = "2026_01_12_10_21_38_wall_lstm_control"
+    DATASET = "2026_02_12_16_06_04_tube_lstm_control"
+    # DATASET = "2026_01_12_10_21_38_wall_lstm_control"
     # DATASET = "2026_01_12_11_48_35_wall_lstm_baseline_control"
     # DATASET = "2025_11_19_11_50_06_AL_WLJ_dataset0"
     # DATASET = "2025_11_19_12_20_00_AL_WLJ_dataset1"
