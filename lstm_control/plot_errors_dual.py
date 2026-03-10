@@ -14,13 +14,15 @@ def rms_error(data):
 
 errors_1 = np.loadtxt(
     # "process_error/wall_lstm_control_2025_10_31_14_30_40_layer_err.csv",
-    "process_error/wall_lstm_baseline_control_2025_11_05_12_38_13_layer_err.csv",
+    # "process_error/wall_lstm_baseline_control_2025_11_05_12_38_13_layer_err.csv",
+    "process_error/2026_02_25_09_57_16_tube_baseline_control_layer_err.csv",
     delimiter=','
 )
 
 errors_2 = np.loadtxt(
-    "process_error/2026_01_12_10_21_38_wall_lstm_control_layer_err.csv",
+    # "process_error/2026_01_12_10_21_38_wall_lstm_control_layer_err.csv",
     # "process_error/wall_lstm_control_2025_10_31_13_34_50_layer_err.csv",
+    "process_error/2026_02_23_11_23_56_tube_lstm_control_layer_err.csv",
     delimiter=','
 )
 
@@ -38,8 +40,8 @@ print(f"RMS 1: {rms_errors_1[-1]}")
 ax.plot(rms_errors_1)
 rms_errors = []
 for layer in range(errors_2.shape[0]):
-    # rms_errors.append(rms_error(errors_2[layer,2:-2]))
-    rms_errors.append(rms_error(errors_2[layer,:]))
+    rms_errors.append(rms_error(errors_2[layer,2:-2]))
+    # rms_errors.append(rms_error(errors_2[layer,:]))
 print(f"RMS 2: {rms_errors[-1]}")
 ax.plot(rms_errors)
 
@@ -50,7 +52,7 @@ ax.legend([
     'Linearized LSTM Control',
     ''
 ])
-ax.set_ylim([0,1.3])
+ax.set_ylim([0,2.2])
 ax.set_ylabel("RMSE (mm)")
 ax.set_xlabel("Layer, No.")
 plt.show()
@@ -63,11 +65,13 @@ plt.show()
 
 
 # trim the first few layers
-errors_1 = errors_1[25:,:]
-errors_2 = errors_2[25:, :]
-max_e = max(errors_1.max(), errors_2.max())
-min_e = min(errors_1.min(), errors_2.min())
+# errors_1 = errors_1[25:,:]
+# errors_2 = errors_2[25:, :]
+max_e = max(np.nanmax(errors_1), np.nanmax(errors_2))
+min_e = min(np.nanmin(errors_1), np.nanmin(errors_2))
 
+print(min_e)
+print(max_e)
 # heatmap of errors
 fig,ax=plt.subplots(1,2)
 im_1 = ax[0].imshow(errors_1, cmap='inferno', vmin=min_e, vmax=max_e)

@@ -8,7 +8,8 @@ import time
 
 if __name__=="__main__":
 
-    DATASET = "2026_01_23_10_46_41_WLJ_XX_motion_test_normal_priority_no_load"
+    DATASET = "2026_02_24_16_21_36_single_joint_motion_async"
+    # DATASET = "2026_01_23_10_46_41_WLJ_XX_motion_test_normal_priority_no_load"
     # DATASET = "2026_01_23_10_40_04_WLJ_XX_motion_test_high_priority_no_load"
     # DATASET = "2026_01_23_10_26_27_WLJ_XX_motion_test_normal_priority_cpu_stressed"
     # DATASET = "2026_01_23_10_33_25_WLJ_XX_motion_test_high_priority_cpu_stressed"
@@ -32,7 +33,7 @@ if __name__=="__main__":
 
     js_exe= np.loadtxt(f"{DATA_DIR}layer_{LAYER}/weld_js_exe.csv", delimiter=',')
     js_cmd = np.loadtxt(f"{DATA_DIR}layer_{LAYER}/weld_js_cmd.csv", delimiter=',')
-    ir2_stamps= np.loadtxt(f"{DATA_DIR}layer_{LAYER}/ir_stamps_2.csv", delimiter=',')
+    # ir2_stamps= np.loadtxt(f"{DATA_DIR}layer_{LAYER}/ir_stamps_2.csv", delimiter=',')
     # ir_stamps= np.loadtxt(f"{DATA_DIR}layer_{LAYER}/ir_stamps.csv", delimiter=',')
 
     exe_stamps = js_exe[:,0]
@@ -65,6 +66,7 @@ if __name__=="__main__":
 
     ax[2].set_xlabel("Time (s)")
     ax[2].set_ylabel("Sample Time (s)")
+    ax[2].set_ylim([0,0.012])
     ax[1].set_ylabel("Joint 2 Position (rad)")
     ax[0].set_ylabel("Joint 2 Velocity (rad/s)")
     ax[2].legend(["exe", "cmd"])
