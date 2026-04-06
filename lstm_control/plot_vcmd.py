@@ -6,17 +6,19 @@ from angled_layers import avg_by_line
 
 # REC_DIR = "../../../recorded_data/wall_lstm_control_2025_10_31_14_30_40/"
 # REC_DIR = "../../recorded_data/wall_lstm_control_2025_10_31_13_34_50/"
-REC_DIR = "../../recorded_data/wall_lstm_control_2025_11_05_13_17_59/"
+# REC_DIR = "../../recorded_data/wall_lstm_control_2025_11_05_13_17_59/"
+REC_DIR = "../../recorded_data/2026_02_19_11_25_50_tube_lstm_control/"
 
 v_cmds_cum = []
-LAYERS = [9,24,35,40]
+# LAYERS = [9,24,35,40]
+LAYERS = [97, 98, 99]
 fig, ax = plt.subplots(3,1, sharex=True)
 for layer in LAYERS: 
     v_cmd = np.loadtxt(f"{REC_DIR}layer_{layer}/v_cmd.csv", delimiter=",")
 
     js_exe = np.loadtxt(f"{REC_DIR}layer_{layer}/weld_js_cmd.csv", delimiter=",")
 
-    job_no = np.linspace(0,48, 49)
+    job_no = np.linspace(0,45, 46)
 
     v_cmds = []
     for num in job_no:
@@ -35,25 +37,25 @@ for layer in LAYERS:
 
     js_exe = np.loadtxt(f"{REC_DIR}layer_{layer}/weld_js_cmd.csv", delimiter=",")
 
-    job_no = np.linspace(0,48, 49)
+    job_no = np.linspace(0,45, 46)
 
     ax[1].plot(dh_d)
 ax[1].legend(LAYERS)
 ax[1].set_ylabel(r"$\Delta H_d (mm)$")
-ax[1].set_ylim([0,4])
+ax[1].set_ylim([-2,6])
 
 for layer in LAYERS: 
     dh_prev= np.loadtxt(f"{REC_DIR}layer_{layer}/dh_prev_all.csv", delimiter=",")
 
     js_exe = np.loadtxt(f"{REC_DIR}layer_{layer}/weld_js_cmd.csv", delimiter=",")
 
-    job_no = np.linspace(0,47, 48)
+    job_no = np.linspace(0,45, 46)
 
     ax[2].plot(dh_prev)
 
 ax[2].set_xlabel("Segment Index")
 ax[2].legend(LAYERS)
-ax[2].set_ylim([0,4])
+ax[2].set_ylim([-2,6])
 ax[2].set_ylabel(r"$\Delta H(mm)$")
 
 plt.show()

@@ -13,7 +13,7 @@ def rms_error(data):
     return np.sqrt(num/n)
 
 errors_1 = np.loadtxt(
-    "process_error/2026_02_12_16_06_04_tube_lstm_control_layer_err.csv",
+    "process_error/2026_02_19_11_25_50_tube_lstm_control_layer_err.csv",
     delimiter=','
 )
 # rms error calc
@@ -43,21 +43,21 @@ min_e = errors_1.sum(axis=0).min()
 max_e = errors_1.sum(axis=0).max()
 
 # heatmap of errors
-fig,ax=plt.subplots(1,2)
-im_1 = ax[0].imshow(errors_1, cmap='inferno', vmin=min_e, vmax=max_e)
-ax[0].invert_yaxis()
-ax[0].set_title("Baseline")
-ax[1].invert_yaxis()
-ax[1].set_title("LSTM Controller")
-fig.colorbar(im_1)
-plt.tight_layout()
-plt.show()
+# fig,ax=plt.subplots(1,2)
+# im_1 = ax[0].imshow(errors_1, cmap='inferno', vmin=min_e, vmax=max_e)
+# ax[0].invert_yaxis()
+# ax[0].set_title("Baseline")
+# ax[1].invert_yaxis()
+# ax[1].set_title("LSTM Controller")
+# fig.colorbar(im_1)
+# plt.tight_layout()
+# plt.show()
 
 # bar chart of error sums for each segment
-max_e = errors_1.sum(axis=0).max()
-min_e = errors_1.sum(axis=0).min()
-fig,ax = plt.subplots(2,1)
-ax[0].plot(errors_1.sum(axis=0))
-ax[0].set_ylim([min_e, max_e])
-ax[1].set_ylim([min_e, max_e])
-plt.show()
+# max_e = errors_1.sum(axis=0).max()
+# min_e = errors_1.sum(axis=0).min()
+# fig,ax = plt.subplots(2,1)
+# ax[0].plot(errors_1.sum(axis=0))
+# ax[0].set_ylim([min_e, max_e])
+# ax[1].set_ylim([min_e, max_e])
+# plt.show()
