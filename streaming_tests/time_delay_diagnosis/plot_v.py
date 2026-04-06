@@ -6,7 +6,8 @@ if __name__=='__main__':
     # DATASET = "2026_01_23_10_46_41_WLJ_XX_motion_test_normal_priority_no_load"
     # DATASET = "2026_01_23_10_40_04_WLJ_XX_motion_test_high_priority_no_load"
     # DATASET = "2026_02_02_16_55_08_WLJ_XX_new_data_test_old_lam_cur"
-    DATASET = "2026_02_02_16_51_44_WLJ_XX_new_data_test_new_lam_cur"
+    # DATASET = "2026_02_02_16_51_44_WLJ_XX_new_data_test_new_lam_cur"
+    DATASET = "2026_02_17_15_15_48_WLJ_XX_new_data_test"
     # DATASET = "2026_01_28_14_38_23_WLJ_XX_new_data_test"
     # DATASET = "2026_01_23_10_26_27_WLJ_XX_motion_test_normal_priority_cpu_stressed"
     # DATASET = "2026_01_23_10_33_25_WLJ_XX_motion_test_high_priority_cpu_stressed"
@@ -14,7 +15,7 @@ if __name__=='__main__':
     # DATASET = "2026_01_23_11_38_39_WLJ_XX_motion_test_high_priority_linux"
     # DATASET = "2025_11_19_11_50_06_AL_WLJ_dataset0"
     REC_DIR = '../../../recorded_data/'
-    LAYER = 0
+    LAYER = 5
     CONFIG_DIR = '../../../adaptive_closed_loop_waam/config/'
 
     robot=robot_obj(
@@ -47,7 +48,7 @@ if __name__=='__main__':
     plot_min = 0
     plot_max = -1
 
-    fig, ax = plt.subplots(3,1, sharex=False)
+    fig, ax = plt.subplots(3,1, sharex=True)
     ax[0].plot(js_exe[:,0]-js_exe[0,0], exe_pos[:,0])
     ax[0].plot(js_cmd[:,0]-js_exe[0,0], cmd_pos[:,0])
     ax[0].plot(js_cmd[[0,-1],0]-js_exe[0,0], cmd_pos[[0,-1], 0], 'r--', alpha=0.5)

@@ -33,8 +33,14 @@ data_dir = "../../../Welding_Motoman/data/" + dataset + sliced_alg
 # HEIGHT_OFFSET = -6.318382754974749 
 
 # DATASET = "2026_02_12_16_06_04_tube_lstm_control"
-DATASET = "2026_02_19_11_25_50_tube_lstm_control"
-HEIGHT_OFFSET = -8.058484994710991
+# DATASET = "2026_02_19_11_25_50_tube_lstm_control"
+# HEIGHT_OFFSET = -8.058484994710991
+# HEIGHT_OFFSET = -8.058484994710991
+# REC_DIR = f"../../../recorded_data/{DATASET}/"
+
+DATASET = "2026_02_25_09_57_16_tube_baseline_control"
+# DATASET = "2026_02_23_11_23_56_tube_lstm_control"
+HEIGHT_OFFSET = -7.505279694036279
 REC_DIR = f"../../../recorded_data/{DATASET}/"
 CONFIG_DIR = f"{REC_DIR}/config/"
 NUM_SEGS = 46
